@@ -1,0 +1,39 @@
+environment: DEV
+
+key_vault:
+  name: "your-key-vault-name"
+
+graph_api:
+  tenant_id_secret: "graph-tenant-id"
+  client_id_secret: "graph-client-id"
+  client_secret_secret: "graph-client-secret"
+  base_url: "https://graph.microsoft.com"
+
+audit_api:
+  base_url: "https://graph.microsoft.com/beta/security/auditLog"
+
+copilot_sku_ids:
+  - "639dec6b-bb19-468b-871c-c5c441c4b0cb"
+  - "a809996b-059e-42e2-9866-db24b99a9782"
+  - "ad9c22b3-52d7-4e7e-973c-88121ea96436"
+
+usage_score:
+  frequency_weight: 0.4
+  breadth_weight: 0.3
+  recency_weight: 0.3
+  active_threshold: 0.5
+  low_usage_threshold: 0.1
+  inactivity_days: 30
+
+license_cost:
+  cost_per_user_per_month: 30.0
+
+alerts:
+  utilization_threshold: 0.6
+  alert_recipients:
+    - "itadmin@contoso.com"
+
+pipeline:
+  schedule_cron: "0 6 * * *"
+  max_retries: 3
+  retry_backoff_base: 2

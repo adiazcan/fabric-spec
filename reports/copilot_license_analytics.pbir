@@ -1,0 +1,237 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/reportDefinition/1.0.0/schema.json",
+  "version": "1.0",
+  "datasetReference": {
+    "byPath": "../semantic-model/model.bim"
+  },
+  "pages": [
+    {
+      "name": "Executive Dashboard",
+      "description": "US1 executive summary page",
+      "emptyState": {
+        "enabled": true,
+        "title": "No data available",
+        "guidance": "Data appears after the first successful daily refresh pipeline run (01 through 99)."
+      },
+      "visuals": [
+        {
+          "type": "kpiCard",
+          "title": "Total Licenses",
+          "measure": "[Total Licenses]"
+        },
+        {
+          "type": "kpiCard",
+          "title": "Active Users",
+          "measure": "[Active Users]"
+        },
+        {
+          "type": "kpiCard",
+          "title": "Utilization Rate",
+          "measure": "[Utilization Rate]"
+        },
+        {
+          "type": "kpiCard",
+          "title": "Estimated Monthly Savings",
+          "measure": "[Est Monthly Savings]"
+        },
+        {
+          "type": "gauge",
+          "title": "Utilization Gauge",
+          "valueMeasure": "[Utilization Rate]",
+          "min": 0,
+          "max": 1,
+          "target": 0.8
+        },
+        {
+          "type": "lineChart",
+          "title": "30-Day Adoption Trend",
+          "xAxis": "dim_date[Date]",
+          "yAxis": "[Utilization Rate]",
+          "relativeDateFilter": {
+            "unit": "day",
+            "last": 30
+          }
+        },
+        {
+          "type": "lineChart",
+          "title": "Daily Active Users Trend by Department",
+          "xAxis": "dim_date[Date]",
+          "yAxis": "[Daily Active Users Trend]",
+          "legend": "dim_department[DepartmentName]"
+        },
+        {
+          "type": "lineChart",
+          "title": "Total Interactions Trend by Department",
+          "xAxis": "dim_date[Date]",
+          "yAxis": "[Total Interactions Trend]",
+          "legend": "dim_department[DepartmentName]"
+        },
+        {
+          "type": "lineChart",
+          "title": "Utilization Rate Trend by Department",
+          "xAxis": "dim_date[Date]",
+          "yAxis": "[Utilization Rate Trend]",
+          "legend": "dim_department[DepartmentName]"
+        },
+        {
+          "type": "slicer",
+          "title": "Date Range",
+          "field": "dim_date[Date]",
+          "mode": "between"
+        },
+        {
+          "type": "slicer",
+          "title": "Department",
+          "field": "dim_department[DepartmentName]",
+          "mode": "list",
+          "multiSelect": true
+        }
+      ]
+    },
+    {
+      "name": "User Details",
+      "description": "US2 underutilized license analysis page",
+      "emptyState": {
+        "enabled": true,
+        "title": "No data available",
+        "guidance": "Run the daily refresh pipeline and wait for Gold table generation before reviewing user-level results."
+      },
+      "visuals": [
+        {
+          "type": "table",
+          "title": "Underutilized Licensed Users",
+          "columns": [
+            "dim_user[UserPrincipalName]",
+            "dim_user[DisplayName]",
+            "dim_department[DepartmentName]",
+            "dim_department[Location]",
+            "dim_user[LicenseAssignedDate]",
+            "fact_user_usage[DaysSinceLastActivity]",
+            "fact_user_usage[UsageScore]",
+            "fact_user_usage[Recommendation]"
+          ],
+          "visualLevelFilters": [
+            {
+              "field": "dim_user[HasCopilotLicense]",
+              "operator": "equals",
+              "value": true
+            },
+            {
+              "field": "fact_user_usage[DaysSinceLastActivity]",
+              "operator": "greaterThanOrEqual",
+              "valueMeasure": "[Inactivity Threshold (Days)]"
+            }
+          ],
+          "conditionalFormatting": [
+            {
+              "field": "fact_user_usage[UsageScore]",
+              "type": "backgroundColorScale",
+              "low": 0,
+              "high": 1
+            }
+          ]
+        },
+        {
+          "type": "slicer",
+          "title": "Days Inactive Threshold",
+          "field": "fact_user_usage[DaysSinceLastActivity]",
+          "mode": "between"
+        },
+        {
+          "type": "button",
+          "title": "Export Underutilized Users (CSV)",
+          "action": "exportData",
+          "targetVisualTitle": "Underutilized Licensed Users",
+          "format": "csv"
+        }
+      ]
+    },
+    {
+      "name": "Department Analysis",
+      "description": "US3 department and location adoption analysis page",
+      "emptyState": {
+        "enabled": true,
+        "title": "No data available",
+        "guidance": "Department metrics populate after the first successful transformation to Gold and semantic model refresh."
+      },
+      "visuals": [
+        {
+          "type": "matrix",
+          "title": "Department Adoption Metrics",
+          "rows": [
+            "dim_department[DepartmentName]"
+          ],
+          "values": [
+            "[Department Utilization Rate]",
+            "[Department Avg Usage Score]",
+            "[Department Active Users]",
+            "[Department Interaction Count]"
+          ]
+        },
+        {
+          "type": "slicer",
+          "title": "Location",
+          "field": "dim_department[Location]",
+          "mode": "list"
+        },
+        {
+          "type": "button",
+          "title": "Drillthrough to User Details",
+          "action": "drillthrough",
+          "targetPage": "User Details",
+          "drillthroughFilters": [
+            {
+              "field": "dim_department[DepartmentName]",
+              "sourceField": "dim_department[DepartmentName]"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Recommendations",
+      "description": "US4 license assignment candidates page",
+      "emptyState": {
+        "enabled": true,
+        "title": "No data available",
+        "guidance": "Recommendations appear after refresh ingests M365 activity and computes candidate ranking in Gold."
+      },
+      "visuals": [
+        {
+          "type": "table",
+          "title": "Unlicensed License Assignment Candidates",
+          "columns": [
+            "dim_user[UserPrincipalName]",
+            "dim_user[DisplayName]",
+            "dim_user[Email]",
+            "dim_department[DepartmentName]",
+            "dim_department[Location]",
+            "[M365 Activity Score]",
+            "[Recommended Priority]",
+            "[M365 Activity Score Ranking]"
+          ],
+          "visualLevelFilters": [
+            {
+              "field": "dim_user[HasCopilotLicense]",
+              "operator": "equals",
+              "value": false
+            }
+          ],
+          "sortBy": [
+            {
+              "field": "[M365 Activity Score]",
+              "direction": "descending"
+            }
+          ]
+        },
+        {
+          "type": "button",
+          "title": "Export License Candidates (CSV)",
+          "action": "exportData",
+          "targetVisualTitle": "Unlicensed License Assignment Candidates",
+          "format": "csv"
+        }
+      ]
+    }
+  ]
+}

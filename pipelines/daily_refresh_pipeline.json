@@ -1,0 +1,411 @@
+{
+  "name": "daily_copilot_refresh",
+  "properties": {
+    "description": "Daily refresh pipeline for Copilot license optimization analytics",
+    "annotations": [
+      "US7",
+      "bronze-silver-gold"
+    ],
+    "parameters": {
+      "workspaceId": {
+        "type": "String"
+      },
+      "semanticModelId": {
+        "type": "String"
+      },
+      "utilizationThreshold": {
+        "type": "Float",
+        "defaultValue": 0.6
+      },
+      "inactivityDaysThreshold": {
+        "type": "Int",
+        "defaultValue": 30
+      },
+      "alertRecipients": {
+        "type": "Array",
+        "defaultValue": [
+          "itadmin@contoso.com"
+        ]
+      },
+      "notificationRecipients": {
+        "type": "Array",
+        "defaultValue": [
+          "itadmin@contoso.com"
+        ]
+      },
+      "dashboardLink": {
+        "type": "String",
+        "defaultValue": "https://app.powerbi.com/"
+      }
+    },
+    "variables": {
+      "pipelineStatus": {
+        "type": "String",
+        "defaultValue": "SUCCESS"
+      },
+      "recordsProcessed": {
+        "type": "String",
+        "defaultValue": "0"
+      },
+      "activeUsers": {
+        "type": "String",
+        "defaultValue": "0"
+      },
+      "utilizationRate": {
+        "type": "String",
+        "defaultValue": "0"
+      },
+      "errorCount": {
+        "type": "String",
+        "defaultValue": "0"
+      },
+      "inactiveUsersCount": {
+        "type": "String",
+        "defaultValue": "0"
+      },
+      "affectedUserDigest": {
+        "type": "String",
+        "defaultValue": ""
+      }
+    },
+    "activities": [
+      {
+        "name": "01_ingest_graph_users",
+        "type": "Notebook",
+        "policy": {
+          "retry": 3,
+          "retryIntervalInSeconds": 120
+        },
+        "typeProperties": {
+          "notebook": {
+            "referenceName": "01_ingest_graph_users",
+            "type": "NotebookReference"
+          }
+        }
+      },
+      {
+        "name": "02_ingest_graph_licenses",
+        "type": "Notebook",
+        "dependsOn": [
+          {
+            "activity": "01_ingest_graph_users",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "retry": 3,
+          "retryIntervalInSeconds": 120
+        },
+        "typeProperties": {
+          "notebook": {
+            "referenceName": "02_ingest_graph_licenses",
+            "type": "NotebookReference"
+          }
+        }
+      },
+      {
+        "name": "03_ingest_usage_reports",
+        "type": "Notebook",
+        "dependsOn": [
+          {
+            "activity": "02_ingest_graph_licenses",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "retry": 3,
+          "retryIntervalInSeconds": 120
+        },
+        "typeProperties": {
+          "notebook": {
+            "referenceName": "03_ingest_usage_reports",
+            "type": "NotebookReference"
+          }
+        }
+      },
+      {
+        "name": "03b_ingest_m365_activity",
+        "type": "Notebook",
+        "dependsOn": [
+          {
+            "activity": "03_ingest_usage_reports",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "retry": 3,
+          "retryIntervalInSeconds": 120
+        },
+        "typeProperties": {
+          "notebook": {
+            "referenceName": "03b_ingest_m365_activity",
+            "type": "NotebookReference"
+          }
+        }
+      },
+      {
+        "name": "04_ingest_audit_logs",
+        "type": "Notebook",
+        "dependsOn": [
+          {
+            "activity": "03b_ingest_m365_activity",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "retry": 3,
+          "retryIntervalInSeconds": 120
+        },
+        "typeProperties": {
+          "notebook": {
+            "referenceName": "04_ingest_audit_logs",
+            "type": "NotebookReference"
+          }
+        }
+      },
+      {
+        "name": "05_transform_bronze_to_silver",
+        "type": "Notebook",
+        "dependsOn": [
+          {
+            "activity": "04_ingest_audit_logs",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "retry": 3,
+          "retryIntervalInSeconds": 120
+        },
+        "typeProperties": {
+          "notebook": {
+            "referenceName": "05_transform_bronze_to_silver",
+            "type": "NotebookReference"
+          }
+        }
+      },
+      {
+        "name": "06_transform_silver_to_gold",
+        "type": "Notebook",
+        "dependsOn": [
+          {
+            "activity": "05_transform_bronze_to_silver",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "retry": 3,
+          "retryIntervalInSeconds": 120
+        },
+        "typeProperties": {
+          "notebook": {
+            "referenceName": "06_transform_silver_to_gold",
+            "type": "NotebookReference"
+          }
+        }
+      },
+      {
+        "name": "99_data_quality_checks",
+        "type": "Notebook",
+        "dependsOn": [
+          {
+            "activity": "06_transform_silver_to_gold",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "retry": 3,
+          "retryIntervalInSeconds": 120
+        },
+        "typeProperties": {
+          "notebook": {
+            "referenceName": "99_data_quality_checks",
+            "type": "NotebookReference"
+          }
+        }
+      },
+      {
+        "name": "evaluate_latest_utilization",
+        "type": "Lookup",
+        "dependsOn": [
+          {
+            "activity": "06_transform_silver_to_gold",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "SqlSource",
+            "sqlReaderQuery": "SELECT TOP 1 CAST(utilization_rate AS FLOAT) AS utilization_rate, CAST(active_users AS BIGINT) AS active_users, CAST(total_copilot_licensed AS BIGINT) AS total_licensed FROM gold_daily_metrics ORDER BY metric_date DESC"
+          },
+          "dataset": {
+            "referenceName": "goldLakehouseSqlEndpoint",
+            "type": "DatasetReference"
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "evaluate_inactive_user_breach",
+        "type": "Lookup",
+        "dependsOn": [
+          {
+            "activity": "evaluate_latest_utilization",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "SqlSource",
+            "sqlReaderQuery": "SELECT COUNT(1) AS inactive_user_count, STRING_AGG(CONCAT(user_principal_name, ' (', CAST(days_since_last_activity AS VARCHAR(10)), ' days)'), '; ') AS affected_user_digest FROM gold_user_license_usage WHERE has_copilot_license = 1 AND days_since_last_activity >= @{pipeline().parameters.inactivityDaysThreshold}"
+          },
+          "dataset": {
+            "referenceName": "goldLakehouseSqlEndpoint",
+            "type": "DatasetReference"
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "send_usage_alert_if_threshold_breached",
+        "type": "IfCondition",
+        "dependsOn": [
+          {
+            "activity": "evaluate_latest_utilization",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "evaluate_inactive_user_breach",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "expression": {
+            "type": "Expression",
+            "value": "@or(less(float(activity('evaluate_latest_utilization').output.firstRow.utilization_rate), float(pipeline().parameters.utilizationThreshold)), greater(int(activity('evaluate_inactive_user_breach').output.firstRow.inactive_user_count), 0))"
+          },
+          "ifTrueActivities": [
+            {
+              "name": "send_usage_alert",
+              "type": "WebActivity",
+              "typeProperties": {
+                "method": "POST",
+                "url": "https://prod-00.westeurope.logic.azure.com/workflows/placeholder/triggers/manual/paths/invoke",
+                "headers": {
+                  "Content-Type": "application/json"
+                },
+                "body": {
+                  "subject": "[Copilot Analytics] Usage Alert",
+                  "utilization_rate": "@{activity('evaluate_latest_utilization').output.firstRow.utilization_rate}",
+                  "utilization_threshold": "@{pipeline().parameters.utilizationThreshold}",
+                  "inactive_user_count": "@{activity('evaluate_inactive_user_breach').output.firstRow.inactive_user_count}",
+                  "affected_user_digest": "@{activity('evaluate_inactive_user_breach').output.firstRow.affected_user_digest}",
+                  "dashboard_link": "@{pipeline().parameters.dashboardLink}",
+                  "recipients": "@{pipeline().parameters.alertRecipients}"
+                }
+              }
+            }
+          ],
+          "ifFalseActivities": []
+        }
+      },
+      {
+        "name": "refresh_semantic_model",
+        "type": "WebActivity",
+        "dependsOn": [
+          {
+            "activity": "99_data_quality_checks",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "retry": 3,
+          "retryIntervalInSeconds": 120
+        },
+        "typeProperties": {
+          "method": "POST",
+          "url": "https://api.powerbi.com/v1.0/myorg/groups/@{pipeline().parameters.workspaceId}/datasets/@{pipeline().parameters.semanticModelId}/refreshes",
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "body": {
+            "notifyOption": "NoNotification"
+          }
+        }
+      },
+      {
+        "name": "send_pipeline_notification",
+        "type": "WebActivity",
+        "dependsOn": [
+          {
+            "activity": "refresh_semantic_model",
+            "dependencyConditions": [
+              "Succeeded",
+              "Failed",
+              "Skipped"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "method": "POST",
+          "url": "https://prod-00.westeurope.logic.azure.com/workflows/placeholder/triggers/manual/paths/invoke",
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "body": {
+            "status": "@{pipeline().Status}",
+            "records_processed": "@{variables('recordsProcessed')}",
+            "active_users": "@{variables('activeUsers')}",
+            "utilization_rate": "@{variables('utilizationRate')}",
+            "error_count": "@{variables('errorCount')}",
+            "dashboard_link": "@{pipeline().parameters.dashboardLink}",
+            "recipients": "@{pipeline().parameters.notificationRecipients}"
+          }
+        }
+      }
+    ],
+    "annotationsMetadata": {
+      "notificationContract": "2.2"
+    },
+    "runDimensions": {
+      "schedule": "daily_6am"
+    },
+    "triggers": [
+      {
+        "name": "daily_6am_trigger",
+        "type": "ScheduleTrigger",
+        "properties": {
+          "recurrence": {
+            "frequency": "Day",
+            "interval": 1,
+            "startTime": "2026-02-23T06:00:00Z",
+            "timeZone": "UTC"
+          }
+        }
+      }
+    ]
+  }
+}

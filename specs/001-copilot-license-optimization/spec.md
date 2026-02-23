@@ -153,8 +153,8 @@ As a system operator, I want the data pipeline to refresh automatically every da
 - **User**: Represents an individual in the organization. Key attributes: display name, email, department, location, job title, account status (active/disabled/deleted).
 - **License Assignment**: Represents the assignment of a Copilot license to a user. Key attributes: user reference, license type, assignment date, removal date (if applicable), current status.
 - **Usage Metric**: Aggregated usage data per user per time period. Key attributes: user reference, period (daily), interaction count, features used, last activity date, calculated usage score.
-- **Audit Event**: Individual Copilot interaction event. Key attributes: user reference, timestamp, application (Word, Excel, Teams, etc.), query type, session identifier.
-- **Department**: Organizational unit. Key attributes: name, parent department, location, total user count, licensed user count.
+- **Audit Event**: Individual Copilot interaction event. Key attributes: user reference, timestamp, application (Word, Excel, Teams, etc.), query type.
+- **Department**: Organizational unit. Key attributes: name, location, total user count, licensed user count.
 - **Alert Configuration**: Defines thresholds and recipients for automated notifications. Key attributes: metric type, threshold value, recipient list, frequency.
 
 ## Success Criteria *(mandatory)*

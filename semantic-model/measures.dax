@@ -1,0 +1,198 @@
+-- Core KPI measures for User Story 1 (Executive Dashboard)
+
+License Cost Per Month = 30.0
+
+Total Licenses =
+CALCULATE(
+    DISTINCTCOUNT(dim_user[UserKey]),
+    dim_user[HasCopilotLicense] = TRUE()
+)
+
+Active Users =
+CALCULATE(
+    DISTINCTCOUNT(fact_user_usage[UserKey]),
+    fact_user_usage[UsageCategory] = "Active"
+)
+
+Utilization Rate =
+DIVIDE(
+    [Active Users],
+    [Total Licenses],
+    0
+)
+
+Inactive Licensed Users =
+CALCULATE(
+    DISTINCTCOUNT(fact_user_usage[UserKey]),
+    fact_user_usage[UsageCategory] = "Inactive",
+    dim_user[HasCopilotLicense] = TRUE()
+)
+
+Est Monthly Savings =
+[Inactive Licensed Users] * [License Cost Per Month]
+
+Avg Usage Score =
+AVERAGE(fact_user_usage[UsageScore])
+
+-- User Story 2 measures for underutilized license analysis
+
+Inactivity Threshold (Days) = 30
+
+Days Since Last Activity (Selected User) =
+SELECTEDVALUE(fact_user_usage[DaysSinceLastActivity])
+
+Inactive Users =
+CALCULATE(
+    DISTINCTCOUNT(fact_user_usage[UserKey]),
+    dim_user[HasCopilotLicense] = TRUE(),
+    FILTER(
+        fact_user_usage,
+        COALESCE(fact_user_usage[DaysSinceLastActivity], 99999) >= [Inactivity Threshold (Days)]
+    )
+)
+
+Filtered User Count by Threshold =
+CALCULATE(
+    DISTINCTCOUNT(fact_user_usage[UserKey]),
+    FILTER(
+        fact_user_usage,
+        COALESCE(fact_user_usage[DaysSinceLastActivity], 99999) >= [Inactivity Threshold (Days)]
+    )
+)
+
+-- User Story 3 measures for departmental adoption analysis
+
+Department Active Users =
+CALCULATE(
+    DISTINCTCOUNT(fact_user_usage[UserKey]),
+    fact_user_usage[UsageCategory] = "Active"
+)
+
+Department Utilization Rate =
+DIVIDE(
+    [Department Active Users],
+    CALCULATE(
+        DISTINCTCOUNT(dim_user[UserKey]),
+        dim_user[HasCopilotLicense] = TRUE()
+    ),
+    0
+)
+
+Department Avg Usage Score =
+AVERAGE(fact_user_usage[UsageScore])
+
+Department Interaction Count =
+SUM(fact_user_usage[InteractionCount])
+
+-- User Story 4 measures for license assignment candidates
+
+M365 Activity Score =
+AVERAGE(fact_user_usage[UsageScore])
+
+M365 Activity Score Ranking =
+VAR CurrentUser = SELECTEDVALUE(dim_user[UserKey])
+RETURN
+IF(
+    NOT ISBLANK(CurrentUser),
+    RANKX(
+        FILTER(
+            ALL(dim_user[UserKey]),
+            CALCULATE(SELECTEDVALUE(dim_user[HasCopilotLicense])) = FALSE()
+        ),
+        CALCULATE([M365 Activity Score]),
+        ,
+        DESC,
+        DENSE
+    )
+)
+
+Candidate Count =
+CALCULATE(
+    DISTINCTCOUNT(dim_user[UserKey]),
+    dim_user[HasCopilotLicense] = FALSE(),
+    FILTER(
+        fact_user_usage,
+        [M365 Activity Score] > 0
+    )
+)
+
+Recommended Priority =
+VAR Score = [M365 Activity Score]
+RETURN
+SWITCH(
+    TRUE(),
+    ISBLANK(Score), BLANK(),
+    Score >= 0.7, "High",
+    Score >= 0.4, "Medium",
+    "Low"
+)
+
+Is Unlicensed Candidate =
+IF(
+    SELECTEDVALUE(dim_user[HasCopilotLicense], TRUE()) = FALSE(),
+    1,
+    0
+)
+
+-- User Story 5 measures for usage trend analysis
+
+Daily Active Users Trend =
+CALCULATE(
+    DISTINCTCOUNT(fact_user_usage[UserKey]),
+    fact_user_usage[UsageCategory] = "Active"
+)
+
+Total Interactions Trend =
+SUM(fact_user_usage[InteractionCount])
+
+Utilization Rate Trend =
+DIVIDE(
+    [Daily Active Users Trend],
+    CALCULATE(
+        DISTINCTCOUNT(dim_user[UserKey]),
+        dim_user[HasCopilotLicense] = TRUE()
+    ),
+    0
+)
+
+Daily Active Users Trend (Previous Period) =
+CALCULATE(
+    [Daily Active Users Trend],
+    DATEADD(dim_date[Date], -1, DAY)
+)
+
+Total Interactions Trend (Previous Period) =
+CALCULATE(
+    [Total Interactions Trend],
+    DATEADD(dim_date[Date], -1, DAY)
+)
+
+Utilization Rate Trend (Previous Period) =
+CALCULATE(
+    [Utilization Rate Trend],
+    DATEADD(dim_date[Date], -1, DAY)
+)
+
+Daily Active Users PoP Change % =
+VAR PreviousValue = [Daily Active Users Trend (Previous Period)]
+RETURN
+DIVIDE([Daily Active Users Trend] - PreviousValue, PreviousValue, 0)
+
+Total Interactions PoP Change % =
+VAR PreviousValue = [Total Interactions Trend (Previous Period)]
+RETURN
+DIVIDE([Total Interactions Trend] - PreviousValue, PreviousValue, 0)
+
+Utilization Rate PoP Change % =
+VAR PreviousValue = [Utilization Rate Trend (Previous Period)]
+RETURN
+DIVIDE([Utilization Rate Trend] - PreviousValue, PreviousValue, 0)
+
+Selected Date Range Start =
+MIN(dim_date[Date])
+
+Selected Date Range End =
+MAX(dim_date[Date])
+
+Selected Date Range Days =
+DATEDIFF([Selected Date Range Start], [Selected Date Range End], DAY) + 1

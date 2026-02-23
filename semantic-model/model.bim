@@ -1,0 +1,180 @@
+{
+  "name": "Copilot License Analytics",
+  "compatibilityLevel": 1565,
+  "model": {
+    "culture": "en-US",
+    "defaultPowerBIDataSourceVersion": "powerBI_V3",
+    "tables": [
+      {
+        "name": "fact_user_usage",
+        "columns": [
+          { "name": "UserKey", "dataType": "int64" },
+          { "name": "DateKey", "dataType": "int64" },
+          { "name": "DepartmentKey", "dataType": "int64" },
+          { "name": "LicenseKey", "dataType": "int64" },
+          { "name": "InteractionCount", "dataType": "int64" },
+          { "name": "AppsUsedCount", "dataType": "int64" },
+          { "name": "FrequencyScore", "dataType": "double" },
+          { "name": "BreadthScore", "dataType": "double" },
+          { "name": "RecencyScore", "dataType": "double" },
+          { "name": "UsageScore", "dataType": "double" },
+          { "name": "UsageCategory", "dataType": "string" },
+          { "name": "Recommendation", "dataType": "string" },
+          { "name": "DaysSinceLastActivity", "dataType": "int64" }
+        ],
+        "partitions": [
+          {
+            "name": "fact_user_usage_partition",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"gold_user_license_usage\"",
+                "in",
+                "    Source"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "dim_user",
+        "columns": [
+          { "name": "UserKey", "dataType": "int64" },
+          { "name": "UserID", "dataType": "string" },
+          { "name": "UserPrincipalName", "dataType": "string" },
+          { "name": "DisplayName", "dataType": "string" },
+          { "name": "Email", "dataType": "string" },
+          { "name": "JobTitle", "dataType": "string" },
+          { "name": "IsEnabled", "dataType": "boolean" },
+          { "name": "HasCopilotLicense", "dataType": "boolean" },
+          { "name": "LicenseAssignedDate", "dataType": "dateTime" }
+        ],
+        "partitions": [
+          {
+            "name": "dim_user_partition",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"gold_user_license_usage\"",
+                "in",
+                "    Table.Distinct(Table.SelectColumns(Source, {\"UserKey\", \"user_id\", \"user_principal_name\", \"display_name\", \"email\", \"job_title\", \"is_enabled\", \"has_copilot_license\", \"license_assigned_date\"}))"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "dim_date",
+        "columns": [
+          { "name": "DateKey", "dataType": "int64" },
+          { "name": "Date", "dataType": "dateTime" },
+          { "name": "Year", "dataType": "int64" },
+          { "name": "Quarter", "dataType": "int64" },
+          { "name": "Month", "dataType": "int64" },
+          { "name": "MonthName", "dataType": "string" },
+          { "name": "Week", "dataType": "int64" },
+          { "name": "DayOfWeek", "dataType": "int64" },
+          { "name": "DayName", "dataType": "string" },
+          { "name": "IsWeekend", "dataType": "boolean" },
+          { "name": "IsBusinessDay", "dataType": "boolean" }
+        ],
+        "partitions": [
+          {
+            "name": "dim_date_partition",
+            "mode": "import",
+            "source": {
+              "type": "calculated",
+              "expression": "VAR StartDate = TODAY() - 365\nVAR EndDate = TODAY() + 365\nRETURN\nADDCOLUMNS(\n    CALENDAR(StartDate, EndDate),\n    \"DateKey\", YEAR([Date]) * 10000 + MONTH([Date]) * 100 + DAY([Date]),\n    \"Year\", YEAR([Date]),\n    \"Quarter\", QUARTER([Date]),\n    \"Month\", MONTH([Date]),\n    \"MonthName\", FORMAT([Date], \"MMMM\"),\n    \"Week\", WEEKNUM([Date], 2),\n    \"DayOfWeek\", WEEKDAY([Date], 2),\n    \"DayName\", FORMAT([Date], \"dddd\"),\n    \"IsWeekend\", WEEKDAY([Date], 2) > 5,\n    \"IsBusinessDay\", WEEKDAY([Date], 2) <= 5\n)"
+            }
+          }
+        ]
+      },
+      {
+        "name": "dim_department",
+        "columns": [
+          { "name": "DepartmentKey", "dataType": "int64" },
+          { "name": "DepartmentName", "dataType": "string" },
+          { "name": "Location", "dataType": "string" }
+        ],
+        "partitions": [
+          {
+            "name": "dim_department_partition",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"gold_department_summary\"",
+                "in",
+                "    Table.Distinct(Table.SelectColumns(Source, {\"DepartmentKey\", \"department\", \"office_location\"}))"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "dim_license",
+        "columns": [
+          { "name": "LicenseKey", "dataType": "int64" },
+          { "name": "SkuID", "dataType": "string" },
+          { "name": "SkuName", "dataType": "string" },
+          { "name": "IsCopilotLicense", "dataType": "boolean" },
+          { "name": "CostPerMonth", "dataType": "double" }
+        ],
+        "partitions": [
+          {
+            "name": "dim_license_partition",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"silver_licenses\"",
+                "in",
+                "    Table.Distinct(Table.SelectColumns(Source, {\"LicenseKey\", \"sku_id\", \"sku_name\", \"is_copilot_license\"}))"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "name": "dim_user_fact_user_usage",
+        "fromTable": "dim_user",
+        "fromColumn": "UserKey",
+        "toTable": "fact_user_usage",
+        "toColumn": "UserKey",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "dim_date_fact_user_usage",
+        "fromTable": "dim_date",
+        "fromColumn": "DateKey",
+        "toTable": "fact_user_usage",
+        "toColumn": "DateKey",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "dim_department_fact_user_usage",
+        "fromTable": "dim_department",
+        "fromColumn": "DepartmentKey",
+        "toTable": "fact_user_usage",
+        "toColumn": "DepartmentKey",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "dim_license_fact_user_usage",
+        "fromTable": "dim_license",
+        "fromColumn": "LicenseKey",
+        "toTable": "fact_user_usage",
+        "toColumn": "LicenseKey",
+        "crossFilteringBehavior": "oneDirection"
+      }
+    ]
+  }
+}

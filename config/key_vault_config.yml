@@ -1,0 +1,9 @@
+key_vault:
+  name: "your-key-vault-name"
+  secrets:
+    graph_tenant_id:
+      secret_name: "graph-tenant-id"
+    graph_client_id:
+      secret_name: "graph-client-id"
+    graph_client_secret:
+      secret_name: "graph-client-secret"
