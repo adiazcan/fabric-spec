@@ -1,0 +1,293 @@
+table 'Copilot User Detail'
+	lineageTag: 7dee4b09-c203-4fcc-8509-628e68b3b029
+
+	column 'Report Refresh Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 20191205-f09d-4da0-a634-9b5b9709bec3
+		summarizeBy: none
+		sourceColumn: Report Refresh Date
+
+		variation Variation
+			isDefault
+			relationship: d97a8712-da98-48fa-a120-c1177a298a72
+			defaultHierarchy: LocalDateTable_0c9d0b13-c9e2-4b6a-a315-7b11dab72fde.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'User Principal Name'
+		dataType: string
+		lineageTag: 5fdfaf6f-d0c0-42fb-ba5c-eb3405dce4c4
+		summarizeBy: none
+		sourceColumn: User Principal Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Display Name'
+		dataType: string
+		lineageTag: 863ef1bf-111c-4d50-b1ac-f85123a13aec
+		summarizeBy: none
+		sourceColumn: Display Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Last Activity Date'
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		lineageTag: 4f85729f-fc86-42d4-9043-877eb9bfa111
+		summarizeBy: none
+		sourceColumn: Last Activity Date
+
+		variation Variation
+			isDefault
+			relationship: 1ccc69cf-d84a-4301-9a37-b693b91febdf
+			defaultHierarchy: LocalDateTable_83a19759-31d7-487e-b862-1a4e785aab6b.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'Copilot Chat Last Activity Date'
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		lineageTag: 42b848db-1428-4dae-a5b5-d7d7e2fd409b
+		summarizeBy: none
+		sourceColumn: Copilot Chat Last Activity Date
+
+		variation Variation
+			isDefault
+			relationship: 67fa03e8-b8f5-4c3c-8920-444c43fa04e3
+			defaultHierarchy: LocalDateTable_ea485bf1-ac01-4a04-930e-ee1853080e02.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'Microsoft Teams Copilot Last Activity Date'
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		lineageTag: 6979d3e0-b221-4d80-9ae4-c98f3fb69170
+		summarizeBy: none
+		sourceColumn: Microsoft Teams Copilot Last Activity Date
+
+		variation Variation
+			isDefault
+			relationship: 4072afaa-80e4-474b-92d6-9e9164ffaa5c
+			defaultHierarchy: LocalDateTable_ed99b1fa-a1e4-4606-9db8-ebc5e1d60844.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'Word Copilot Last Activity Date'
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		lineageTag: b6acd742-cc4b-4052-9003-6ea10a9cab0b
+		summarizeBy: none
+		sourceColumn: Word Copilot Last Activity Date
+
+		variation Variation
+			isDefault
+			relationship: 9ee555fd-fba0-4e18-8a03-64ca1b0b8195
+			defaultHierarchy: LocalDateTable_c67c8d42-8e41-41e7-9eb2-0eff51ee5da9.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'Excel Copilot Last Activity Date'
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		lineageTag: 22d8f2c4-802e-4f98-a6fe-adc579621a66
+		summarizeBy: none
+		sourceColumn: Excel Copilot Last Activity Date
+
+		variation Variation
+			isDefault
+			relationship: fcde96d7-d0ac-4ed4-bfbe-d39a1873536b
+			defaultHierarchy: LocalDateTable_2d983025-ee0c-47d2-a593-870dc48ca026.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'PowerPoint Copilot Last Activity Date'
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		lineageTag: 66334dca-d921-4506-8563-20b9378a20a7
+		summarizeBy: none
+		sourceColumn: PowerPoint Copilot Last Activity Date
+
+		variation Variation
+			isDefault
+			relationship: c0fd9429-ca63-4900-8e73-fcb4da175d5d
+			defaultHierarchy: LocalDateTable_62aad15f-4132-42e5-85be-5a2300762126.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'Outlook Copilot Last Activity Date'
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		lineageTag: 84f0c823-c33c-451d-83ce-a5463c7f79c4
+		summarizeBy: none
+		sourceColumn: Outlook Copilot Last Activity Date
+
+		variation Variation
+			isDefault
+			relationship: 88dfcd58-01bb-4cda-ae89-8dd99b1073e8
+			defaultHierarchy: LocalDateTable_5f1703f8-1c07-40c0-ab81-b45dc69fdefc.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'OneNote Copilot Last Activity Date'
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		lineageTag: 3cbb597d-1838-48e7-a286-99468644c82c
+		summarizeBy: none
+		sourceColumn: OneNote Copilot Last Activity Date
+
+		variation Variation
+			isDefault
+			relationship: f855820c-d556-4ade-801a-52df4561e40a
+			defaultHierarchy: LocalDateTable_b467e0c5-8a7e-4e57-b399-b9cda93fb87e.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'Loop Copilot Last Activity Date'
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		lineageTag: 1f4b4bb6-ab4d-4096-a76e-b2bd3e216d3c
+		summarizeBy: none
+		sourceColumn: Loop Copilot Last Activity Date
+
+		variation Variation
+			isDefault
+			relationship: 20ca7fe7-b5d2-4cc1-8a81-431464d12f79
+			defaultHierarchy: LocalDateTable_090dbf44-1f63-44c7-a2ea-bbaec8cc4864.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'Report Period'
+		dataType: string
+		lineageTag: d14f56fd-da81-433f-89a2-bb0c6d0e714c
+		summarizeBy: none
+		sourceColumn: Report Period
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Copilot Usage Maturity Rating 30 days' =
+			
+			VAR Outlook=IF('Copilot User Detail'[Outlook Copilot Last Activity Date]=BLANK(),0,IF('Copilot User Detail'[Outlook Copilot Last Activity Date]>=('Copilot User Detail'[Report Refresh Date]-30),1,0))
+			VAR OneNote=IF('Copilot User Detail'[OneNote Copilot Last Activity Date]=BLANK(),0,IF('Copilot User Detail'[OneNote Copilot Last Activity Date]>=('Copilot User Detail'[Report Refresh Date]-30),1,0))
+			VAR Loop=IF('Copilot User Detail'[Loop Copilot Last Activity Date]=BLANK(),0,IF('Copilot User Detail'[Loop Copilot Last Activity Date]>=('Copilot User Detail'[Report Refresh Date]-30),1,0))
+			VAR PowerPoint=IF('Copilot User Detail'[PowerPoint Copilot Last Activity Date]=BLANK(),0,IF('Copilot User Detail'[PowerPoint Copilot Last Activity Date]>=('Copilot User Detail'[Report Refresh Date]-30),1,0))
+			VAR Excel=IF('Copilot User Detail'[Excel Copilot Last Activity Date]=BLANK(),0,IF('Copilot User Detail'[Excel Copilot Last Activity Date]>=('Copilot User Detail'[Report Refresh Date]-30),1,0))
+			VAR Word=IF('Copilot User Detail'[Word Copilot Last Activity Date]=BLANK(),0,IF('Copilot User Detail'[Word Copilot Last Activity Date]>=('Copilot User Detail'[Report Refresh Date]-30),1,0))
+			VAR Teams=IF('Copilot User Detail'[Microsoft Teams Copilot Last Activity Date]=BLANK(),0,IF('Copilot User Detail'[Microsoft Teams Copilot Last Activity Date]>=('Copilot User Detail'[Report Refresh Date]-30),1,0))
+			VAR Chat=IF('Copilot User Detail'[Copilot Chat Last Activity Date]=BLANK(),0,IF('Copilot User Detail'[Copilot Chat Last Activity Date]>=('Copilot User Detail'[Report Refresh Date]-30),1,0))
+			VAR Rating = Outlook+OneNote+Loop+PowerPoint+Excel+Word+Teams+Chat
+			RETURN
+			Rating
+		formatString: 0
+		lineageTag: 11b14414-9df2-4c14-a69c-b48a49d92aeb
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Copilot Usage Segment' = ```
+			
+			SWITCH(
+			    TRUE(),
+			    'Copilot User Detail'[Copilot Usage Maturity Rating 30 days]=0,"D",
+			    'Copilot User Detail'[Copilot Usage Maturity Rating 30 days]=1,"C",
+			    'Copilot User Detail'[Copilot Usage Maturity Rating 30 days]<4, "B",
+			    "A")
+			
+			```
+		lineageTag: 3643f436-b371-4771-b084-307846045efe
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Champion Suitable' =
+			
+			SWITCH(
+			    TRUE(),
+			    'Copilot User Detail'[Copilot Usage Maturity Rating 30 days]<5,"No",
+			    "Yes")
+		lineageTag: 9ee79a2d-4651-491c-9022-253929eaf860
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Copilot Usage Category' =
+			
+			SWITCH(
+			    TRUE(),
+			    'Copilot User Detail'[Last Activity Date]=BLANK(),"Never Active",
+			    'Copilot User Detail'[Last Activity Date]>=('Copilot User Detail'[Report Refresh Date]-30),"Active",
+			    'Copilot User Detail'[Last Activity Date]>=('Copilot User Detail'[Report Refresh Date]-60), "Churned",
+			    "Lost")
+		lineageTag: f4c01519-e166-477a-8f50-0f39a0f7e91b
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Copilot User Detail' = m
+		mode: import
+		source = ```
+				let 
+				    resource="https://graph.microsoft.com",
+				    tokenResponse = Json.Document(Web.Contents("https://login.windows.net/",
+				    [
+				        RelativePath = #"Azure AD Tenant ID" & "/oauth2/token",
+				        Content = Text.ToBinary(Uri.BuildQueryString(
+				            [
+				                client_id = #"Azure Application Client ID",
+				                resource = resource,
+				                grant_type = "client_credentials",
+				                client_secret = #"Azure Application Client Secret"
+				            ]
+				        )),
+				        Headers = [Accept = "application/json"], ManualStatusHandling = {400}
+				    ])),
+				    access_token = tokenResponse[access_token],
+				    Source = Csv.Document(Web.Contents("https://graph.microsoft.com/beta/reports/getMicrosoft365CopilotUsageUserDetail(period='D30')?$format=text/csv", [ Headers = [ Authorization = "Bearer " & access_token ], ExcludedFromCacheKey = {"Authorization"} ] )),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Report Refresh Date", type date}, {"Last Activity Date", type date}, {"Copilot Chat Last Activity Date", type date}, {"Microsoft Teams Copilot Last Activity Date", type date}, {"Word Copilot Last Activity Date", type date}, {"Excel Copilot Last Activity Date", type date}, {"PowerPoint Copilot Last Activity Date", type date}, {"Outlook Copilot Last Activity Date", type date}, {"OneNote Copilot Last Activity Date", type date}, {"Loop Copilot Last Activity Date", type date}})
+				in
+				    #"Changed Type"
+				```
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

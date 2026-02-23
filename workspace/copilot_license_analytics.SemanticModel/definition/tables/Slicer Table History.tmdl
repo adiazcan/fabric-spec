@@ -1,0 +1,32 @@
+table 'Slicer Table History'
+	lineageTag: 71416b46-bbe0-4618-967b-0ede1c2a0656
+
+	column Value
+		dataType: string
+		lineageTag: 5b1d39cd-19fb-47e6-9bcf-d730d4f6e998
+		summarizeBy: none
+		sourceColumn: Value
+
+		annotation SummarizationSetBy = Automatic
+
+	column Order
+		dataType: string
+		lineageTag: 4f257ade-9de1-496d-9237-090dc76f67d6
+		summarizeBy: none
+		sourceColumn: Order
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Slicer Table History' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WcsyrVHDOL8jMyS9R0lEyVIrViVZyzkgEcYzAnJDUxNxiIM8YzPMvLcnJz88G8k3A/PD8ohQgxxTMCcgvTy0KyM/MA+k2Awu5ViSn5gB55hDdeal++SWpQL4FmO+Tn18A5FgqxcYCAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Value = _t, Order = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Value", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

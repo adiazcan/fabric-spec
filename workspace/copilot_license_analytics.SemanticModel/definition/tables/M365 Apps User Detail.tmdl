@@ -1,0 +1,378 @@
+table 'M365 Apps User Detail'
+	lineageTag: 27e495a2-824e-4de8-a46a-2c7466192005
+
+	column 'Report Refresh Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 9427aa6f-25f1-4e8d-9dca-986ef10de8f6
+		summarizeBy: none
+		sourceColumn: Report Refresh Date
+
+		variation Variation
+			isDefault
+			relationship: 42a5bd34-e996-4840-aa63-63ce7a3be93c
+			defaultHierarchy: LocalDateTable_f027ccc1-c543-432d-a2a2-940933580126.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'User Principal Name'
+		dataType: string
+		lineageTag: a6d4b91e-7109-4935-a640-a973b69ee427
+		summarizeBy: none
+		sourceColumn: User Principal Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Last Activation Date'
+		dataType: string
+		lineageTag: 4e1f01b1-6f6e-417a-9d69-653da5bbb61a
+		summarizeBy: none
+		sourceColumn: Last Activation Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Last Activity Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 05b40f5d-1b8d-4e01-bc12-dce873329c6b
+		summarizeBy: none
+		sourceColumn: Last Activity Date
+
+		variation Variation
+			isDefault
+			relationship: 8958c86f-7839-49ed-8368-a664790d10a4
+			defaultHierarchy: LocalDateTable_7933c8d4-4e8c-4c70-83f4-3ebe1827e4be.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Report Period'
+		dataType: string
+		lineageTag: 940b2597-bee6-4190-8918-39200168f5cf
+		summarizeBy: none
+		sourceColumn: Report Period
+
+		annotation SummarizationSetBy = Automatic
+
+	column Windows
+		dataType: string
+		lineageTag: 3a840431-9422-4d40-a671-011435b316b7
+		summarizeBy: none
+		sourceColumn: Windows
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mac
+		dataType: string
+		lineageTag: a077a23c-d58e-4e8f-99f4-ecbd9af32e0e
+		summarizeBy: none
+		sourceColumn: Mac
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mobile
+		dataType: string
+		lineageTag: ffb327a0-4478-4724-9348-a003c608db14
+		summarizeBy: none
+		sourceColumn: Mobile
+
+		annotation SummarizationSetBy = Automatic
+
+	column Web
+		dataType: string
+		lineageTag: 680f2ef2-c508-44e4-b4b0-c783ac18598e
+		summarizeBy: none
+		sourceColumn: Web
+
+		annotation SummarizationSetBy = Automatic
+
+	column Outlook
+		dataType: string
+		lineageTag: 8227af7b-1405-4a55-82f5-f36e4d6af41e
+		summarizeBy: none
+		sourceColumn: Outlook
+
+		annotation SummarizationSetBy = Automatic
+
+	column Word
+		dataType: string
+		lineageTag: d542da68-3b7b-4a7c-869c-1c76744bfb63
+		summarizeBy: none
+		sourceColumn: Word
+
+		annotation SummarizationSetBy = Automatic
+
+	column Excel
+		dataType: string
+		lineageTag: 21024a84-04a3-4d8f-9c2a-121e887ad467
+		summarizeBy: none
+		sourceColumn: Excel
+
+		annotation SummarizationSetBy = Automatic
+
+	column PowerPoint
+		dataType: string
+		lineageTag: a97ddd13-6240-4792-9af7-133fef78c299
+		summarizeBy: none
+		sourceColumn: PowerPoint
+
+		annotation SummarizationSetBy = Automatic
+
+	column OneNote
+		dataType: string
+		lineageTag: d1f84298-5879-4384-a6fa-b065ef9a7998
+		summarizeBy: none
+		sourceColumn: OneNote
+
+		annotation SummarizationSetBy = Automatic
+
+	column Teams
+		dataType: string
+		lineageTag: e9ef75c4-e221-4423-907c-7262013de38c
+		summarizeBy: none
+		sourceColumn: Teams
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Outlook (Windows)'
+		dataType: string
+		lineageTag: 7dc11494-9107-43f9-9846-e984c0485eb2
+		summarizeBy: none
+		sourceColumn: Outlook (Windows)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Word (Windows)'
+		dataType: string
+		lineageTag: a404ec1e-9a01-465e-9fe8-17aaac72437e
+		summarizeBy: none
+		sourceColumn: Word (Windows)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Excel (Windows)'
+		dataType: string
+		lineageTag: f2c595ff-0284-4d89-a394-aa7d29aa17ee
+		summarizeBy: none
+		sourceColumn: Excel (Windows)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'PowerPoint (Windows)'
+		dataType: string
+		lineageTag: 657da9a9-c2c8-480b-8f4f-7595f220c176
+		summarizeBy: none
+		sourceColumn: PowerPoint (Windows)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'OneNote (Windows)'
+		dataType: string
+		lineageTag: 8e9ef9b7-6aff-4c90-b8f2-b328e05a7119
+		summarizeBy: none
+		sourceColumn: OneNote (Windows)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Teams (Windows)'
+		dataType: string
+		lineageTag: 73eec5df-370d-4e84-835f-8814ac4d2af4
+		summarizeBy: none
+		sourceColumn: Teams (Windows)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Outlook (Mac)'
+		dataType: string
+		lineageTag: 53c45311-0d90-4242-866d-9d42c8a3134a
+		summarizeBy: none
+		sourceColumn: Outlook (Mac)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Word (Mac)'
+		dataType: string
+		lineageTag: c26aae0e-90e1-4c01-95ea-55d012c372d2
+		summarizeBy: none
+		sourceColumn: Word (Mac)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Excel (Mac)'
+		dataType: string
+		lineageTag: d8d8716e-3698-4e26-b59e-f178d68cdb0d
+		summarizeBy: none
+		sourceColumn: Excel (Mac)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'PowerPoint (Mac)'
+		dataType: string
+		lineageTag: ad264b63-e5e5-43b7-9a46-c76fe701f451
+		summarizeBy: none
+		sourceColumn: PowerPoint (Mac)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'OneNote (Mac)'
+		dataType: string
+		lineageTag: e2a9d325-7de2-4126-b57c-2e5438d7f0e7
+		summarizeBy: none
+		sourceColumn: OneNote (Mac)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Teams (Mac)'
+		dataType: string
+		lineageTag: 888b2c2b-0452-4589-b61d-1977f0e587d1
+		summarizeBy: none
+		sourceColumn: Teams (Mac)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Outlook (Mobile)'
+		dataType: string
+		lineageTag: 6bba37a8-89b7-4bd4-b81f-43dcf4ac86ce
+		summarizeBy: none
+		sourceColumn: Outlook (Mobile)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Word (Mobile)'
+		dataType: string
+		lineageTag: 72b7d4df-326b-4251-8eb2-2bb26dfba9c5
+		summarizeBy: none
+		sourceColumn: Word (Mobile)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Excel (Mobile)'
+		dataType: string
+		lineageTag: 50e69759-baf2-4cdf-8924-232ac5db3c19
+		summarizeBy: none
+		sourceColumn: Excel (Mobile)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'PowerPoint (Mobile)'
+		dataType: string
+		lineageTag: c90838bb-1f2e-465e-93b6-78ff04ec78d5
+		summarizeBy: none
+		sourceColumn: PowerPoint (Mobile)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'OneNote (Mobile)'
+		dataType: string
+		lineageTag: b231d8b4-d7da-49d1-9f54-43d2b9b8d9e2
+		summarizeBy: none
+		sourceColumn: OneNote (Mobile)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Teams (Mobile)'
+		dataType: string
+		lineageTag: bf061bbc-0fdd-45c9-bfde-019b95f3077e
+		summarizeBy: none
+		sourceColumn: Teams (Mobile)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Outlook (Web)'
+		dataType: string
+		lineageTag: 828e8b30-724b-46d1-8147-cd1a0005aa72
+		summarizeBy: none
+		sourceColumn: Outlook (Web)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Word (Web)'
+		dataType: string
+		lineageTag: ef8a7687-3da5-478b-be64-d55fba3aa282
+		summarizeBy: none
+		sourceColumn: Word (Web)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Excel (Web)'
+		dataType: string
+		lineageTag: f29f4cc0-47d5-4780-b84e-1972e569ac5e
+		summarizeBy: none
+		sourceColumn: Excel (Web)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'PowerPoint (Web)'
+		dataType: string
+		lineageTag: 47e2c87d-8eb8-4e6d-9ea4-31741ae21ca3
+		summarizeBy: none
+		sourceColumn: PowerPoint (Web)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'OneNote (Web)'
+		dataType: string
+		lineageTag: 23875b13-b876-441e-b8bd-a4311154445d
+		summarizeBy: none
+		sourceColumn: OneNote (Web)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Teams (Web)'
+		dataType: string
+		lineageTag: a30691ec-e635-4fbc-a0cd-e572682e0efe
+		summarizeBy: none
+		sourceColumn: Teams (Web)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'M365Apps Usage Maturity Rating' =
+			
+			VAR Outlook=IF('M365 Apps User Detail'[Outlook]="No",0,1)
+			VAR Word=IF('M365 Apps User Detail'[Word]="No",0,1)
+			VAR Excel=IF('M365 Apps User Detail'[Excel]="No",0,1)
+			VAR PowerPoint=IF('M365 Apps User Detail'[PowerPoint]="No",0,1)
+			VAR OneNote=IF('M365 Apps User Detail'[OneNote]="No",0,1)
+			VAR Teams=IF('M365 Apps User Detail'[Teams]="No",0,1)
+			VAR Rating = Outlook+Word+Excel+PowerPoint+OneNote+Teams
+			RETURN
+			Rating
+		formatString: 0
+		lineageTag: fb7bc938-2137-4286-aad6-cbfc1ea6a170
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'M365 Apps User Detail' = m
+		mode: import
+		source = ```
+				let 
+				    resource="https://graph.microsoft.com",
+				    tokenResponse = Json.Document(Web.Contents("https://login.windows.net/",
+				    [
+				        RelativePath = #"Azure AD Tenant ID" & "/oauth2/token",
+				        Content = Text.ToBinary(Uri.BuildQueryString(
+				            [
+				                client_id = #"Azure Application Client ID",
+				                resource = resource,
+				                grant_type = "client_credentials",
+				                client_secret = #"Azure Application Client Secret"
+				            ]
+				        )),
+				        Headers = [Accept = "application/json"], ManualStatusHandling = {400}
+				    ])),
+				    access_token = tokenResponse[access_token],
+				    Source = Csv.Document(Web.Contents("https://graph.microsoft.com/beta/reports/getM365AppUserDetail(period='D30')?$format=text/csv", [ Headers = [ Authorization = "Bearer " & access_token ], ExcludedFromCacheKey = {"Authorization"} ] )),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Last Activity Date", type date}, {"Report Refresh Date", type date}})
+				in
+				    #"Changed Type"
+				```
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

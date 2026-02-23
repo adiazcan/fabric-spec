@@ -1,0 +1,388 @@
+table 'Teams User Detail'
+	lineageTag: 2ef5d324-8740-401d-961c-20898cade2c7
+
+	column 'Report Refresh Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 14376fdf-6e46-4d4c-b7ef-c8173231e323
+		summarizeBy: none
+		sourceColumn: Report Refresh Date
+
+		variation Variation
+			isDefault
+			relationship: 9d272cbe-7149-4576-b293-99e2a73cfcfc
+			defaultHierarchy: LocalDateTable_07fa2e10-2e11-4454-8b2b-e3b7133677fe.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'User Id'
+		dataType: string
+		lineageTag: 531697c9-88a0-427c-8bd7-d7b7bf2df70a
+		summarizeBy: none
+		sourceColumn: User Id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'User Principal Name'
+		dataType: string
+		lineageTag: 27fb5efb-697f-405f-af26-076124f086dc
+		summarizeBy: none
+		sourceColumn: User Principal Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Last Activity Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 84c254ba-2d89-4a62-a33b-e821061f7ae7
+		summarizeBy: none
+		sourceColumn: Last Activity Date
+
+		variation Variation
+			isDefault
+			relationship: e07bb0fb-bb3e-4bbe-b58b-4caef2298d5e
+			defaultHierarchy: LocalDateTable_c13d891d-cafb-4b23-9def-a329c8ee1ea5.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Is Deleted'
+		dataType: string
+		lineageTag: b5a59f36-ae73-40f2-b949-51028cdeb3be
+		summarizeBy: none
+		sourceColumn: Is Deleted
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Deleted Date'
+		dataType: string
+		lineageTag: 218a6b2c-664b-4b08-98be-5fb70bab4926
+		summarizeBy: none
+		sourceColumn: Deleted Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Is External'
+		dataType: string
+		lineageTag: ec2e6a1c-12ca-4334-a1e1-a4109fc74fdd
+		summarizeBy: none
+		sourceColumn: Is External
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Assigned Products'
+		dataType: string
+		lineageTag: 3b525b22-da83-4c3b-b0e8-be6a4f26d891
+		summarizeBy: none
+		sourceColumn: Assigned Products
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Team Chat Message Count'
+		dataType: int64
+		formatString: 0
+		lineageTag: 18f9e590-001b-48dc-a98f-318deb6ec0b1
+		summarizeBy: sum
+		sourceColumn: Team Chat Message Count
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Private Chat Message Count'
+		dataType: int64
+		formatString: 0
+		lineageTag: 0b627a9a-2986-4682-bf5a-93d538843e37
+		summarizeBy: sum
+		sourceColumn: Private Chat Message Count
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Call Count'
+		dataType: int64
+		formatString: 0
+		lineageTag: 6fe6235d-346d-4b28-9e04-fdad891ff762
+		summarizeBy: sum
+		sourceColumn: Call Count
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Meeting Count'
+		dataType: int64
+		formatString: 0
+		lineageTag: f324af45-b8c0-478d-ba56-a19f22b5aebf
+		summarizeBy: sum
+		sourceColumn: Meeting Count
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Meetings Organized Count'
+		dataType: int64
+		formatString: 0
+		lineageTag: ba4ffd0d-1f17-4c62-8e6b-31f0058e98f1
+		summarizeBy: sum
+		sourceColumn: Meetings Organized Count
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Meetings Attended Count'
+		dataType: int64
+		formatString: 0
+		lineageTag: 8c278a63-fa9f-4b33-a88e-3e5d13f4bb47
+		summarizeBy: sum
+		sourceColumn: Meetings Attended Count
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ad Hoc Meetings Organized Count'
+		dataType: int64
+		formatString: 0
+		lineageTag: da53b878-52cb-46ea-9724-242e0d902693
+		summarizeBy: sum
+		sourceColumn: Ad Hoc Meetings Organized Count
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ad Hoc Meetings Attended Count'
+		dataType: int64
+		formatString: 0
+		lineageTag: 2b5b05e0-f96b-4200-afb7-4c8d29a87f09
+		summarizeBy: sum
+		sourceColumn: Ad Hoc Meetings Attended Count
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Scheduled One-time Meetings Organized Count'
+		dataType: int64
+		formatString: 0
+		lineageTag: 78bd7b7b-7c0a-4691-a6aa-2953c6b02888
+		summarizeBy: sum
+		sourceColumn: Scheduled One-time Meetings Organized Count
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Scheduled One-time Meetings Attended Count'
+		dataType: int64
+		formatString: 0
+		lineageTag: 7c81ce9e-d9cb-4dac-a261-106c112c4680
+		summarizeBy: sum
+		sourceColumn: Scheduled One-time Meetings Attended Count
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Scheduled Recurring Meetings Organized Count'
+		dataType: int64
+		formatString: 0
+		lineageTag: b67a5380-edd5-4aa4-9d8f-8fbb18c54685
+		summarizeBy: sum
+		sourceColumn: Scheduled Recurring Meetings Organized Count
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Scheduled Recurring Meetings Attended Count'
+		dataType: int64
+		formatString: 0
+		lineageTag: 5a743983-7965-4074-9c73-45f240adaeeb
+		summarizeBy: sum
+		sourceColumn: Scheduled Recurring Meetings Attended Count
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Audio Duration'
+		dataType: string
+		lineageTag: afa3f7a3-9313-4a72-a1c9-fb1668057312
+		summarizeBy: none
+		sourceColumn: Audio Duration
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Video Duration'
+		dataType: string
+		lineageTag: e9d31309-d356-418b-bf20-c30e36d7ebe9
+		summarizeBy: none
+		sourceColumn: Video Duration
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Screen Share Duration'
+		dataType: string
+		lineageTag: f90b77b0-74f4-48bd-a873-76950b685932
+		summarizeBy: none
+		sourceColumn: Screen Share Duration
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Audio Duration In Seconds'
+		dataType: int64
+		formatString: 0
+		lineageTag: d6942c50-d619-4a10-b931-6ee8bf9085ed
+		summarizeBy: sum
+		sourceColumn: Audio Duration In Seconds
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Video Duration In Seconds'
+		dataType: int64
+		formatString: 0
+		lineageTag: b931676f-5389-48b0-a16d-d6c32c536fcf
+		summarizeBy: sum
+		sourceColumn: Video Duration In Seconds
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Screen Share Duration In Seconds'
+		dataType: int64
+		formatString: 0
+		lineageTag: facbece0-c5eb-49a9-9b20-baccd3a5a0ca
+		summarizeBy: sum
+		sourceColumn: Screen Share Duration In Seconds
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Has Other Action'
+		dataType: string
+		lineageTag: 5c55d6ec-ad98-4957-93c8-954bf37a5de4
+		summarizeBy: none
+		sourceColumn: Has Other Action
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Urgent Messages'
+		dataType: int64
+		formatString: 0
+		lineageTag: ae54a53d-78e7-4aef-8cef-b61f7afd7fcf
+		summarizeBy: sum
+		sourceColumn: Urgent Messages
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Post Messages'
+		dataType: int64
+		formatString: 0
+		lineageTag: d76e975a-1971-4b0e-ac41-e7c256e13102
+		summarizeBy: sum
+		sourceColumn: Post Messages
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tenant Display Name'
+		dataType: string
+		lineageTag: 53ee4527-f8a5-4018-bb74-7bc614881ba9
+		summarizeBy: none
+		sourceColumn: Tenant Display Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Shared Channel Tenant Display Names'
+		dataType: string
+		lineageTag: 3a3ea253-3365-450f-b567-a51d8bfc5947
+		summarizeBy: none
+		sourceColumn: Shared Channel Tenant Display Names
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Reply Messages'
+		dataType: int64
+		formatString: 0
+		lineageTag: ebe1c395-31c5-4eaa-9a7d-39730fdcc54d
+		summarizeBy: sum
+		sourceColumn: Reply Messages
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Is Licensed'
+		dataType: string
+		lineageTag: fc7b5fd1-e7ef-48e5-8afd-b15887442e94
+		summarizeBy: none
+		sourceColumn: Is Licensed
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Report Period'
+		dataType: string
+		lineageTag: 9e67f4c9-ddcc-4839-bd2d-1a5e78f4798c
+		summarizeBy: none
+		sourceColumn: Report Period
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Teams Usage Maturity Rating' =
+			
+			VAR Meeting=IF('Teams User Detail'[Meeting Count]=0,0,IF('Teams User Detail'[Meeting Count]>=20,1,0.5))
+			VAR MeetingOrg=IF('Teams User Detail'[Meetings Organized Count]=0,0,IF('Teams User Detail'[Meeting Count]>=20,1,0.5))
+			VAR Calls=IF('Teams User Detail'[Call Count]=0,0,IF('Teams User Detail'[Call Count]>=20,1,0.5))
+			VAR Chat=IF('Teams User Detail'[Team Chat Message Count]=0,IF('Teams User Detail'[Team Chat Message Count]>=20,1,0.5))
+			VAR ChatPrivate=IF('Teams User Detail'[Private Chat Message Count]=0,IF('Teams User Detail'[Private Chat Message Count]>=20,1,0.5))
+			VAR ChannelMsg=IF(('Teams User Detail'[Post Messages]+'Teams User Detail'[Reply Messages])=0,IF(('Teams User Detail'[Post Messages]+'Teams User Detail'[Reply Messages])>=20,1,0.5))
+			VAR Audio=IF('Teams User Detail'[Audio Duration Hours]=0,0,IF('Teams User Detail'[Audio Duration Hours]>=20,1,0.5))
+			VAR Rating = Meeting+MeetingOrg+Calls+Chat+ChatPrivate+Audio
+			RETURN
+			Rating
+		lineageTag: 130d64a4-03fe-4ab8-8de2-756b28b2e1b6
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Channel Messages' = 'Teams User Detail'[Post Messages]+'Teams User Detail'[Reply Messages]
+		formatString: 0
+		lineageTag: 421b5cfc-38f0-4eba-b29d-93062f816958
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Audio Duration Hours' = [Audio Duration In Seconds]/3600
+		formatString: 0.00
+		lineageTag: acf8a296-0945-405c-b7ca-0d2088fd8fcf
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Screen Share Duration Hours' = 'Teams User Detail'[Screen Share Duration In Seconds]/3600
+		lineageTag: 18abac4d-6959-4161-984f-2f9c73b9c157
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Video Duration Hours' = 'Teams User Detail'[Video Duration In Seconds]/3600
+		lineageTag: 98275b5f-64e2-412c-aea7-245902adc712
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'Teams User Detail' = m
+		mode: import
+		source = ```
+				let 
+				    resource="https://graph.microsoft.com",
+				    tokenResponse = Json.Document(Web.Contents("https://login.windows.net/",
+				    [
+				        RelativePath = #"Azure AD Tenant ID" & "/oauth2/token",
+				        Content = Text.ToBinary(Uri.BuildQueryString(
+				            [
+				                client_id = #"Azure Application Client ID",
+				                resource = resource,
+				                grant_type = "client_credentials",
+				                client_secret = #"Azure Application Client Secret"
+				            ]
+				        )),
+				        Headers = [Accept = "application/json"], ManualStatusHandling = {400}
+				    ])),
+				    access_token = tokenResponse[access_token],
+				    Source = Csv.Document(Web.Contents("https://graph.microsoft.com/beta/reports/getTeamsUserActivityUserDetail(period='D30')?$format=text/csv", [ Headers = [ Authorization = "Bearer " & access_token ], ExcludedFromCacheKey = {"Authorization"} ] )),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Report Refresh Date", type date}, {"Last Activity Date", type date}, {"Team Chat Message Count", Int64.Type}, {"Private Chat Message Count", Int64.Type}, {"Call Count", Int64.Type}, {"Meeting Count", Int64.Type}, {"Meetings Organized Count", Int64.Type}, {"Meetings Attended Count", Int64.Type}, {"Ad Hoc Meetings Organized Count", Int64.Type}, {"Ad Hoc Meetings Attended Count", Int64.Type}, {"Scheduled One-time Meetings Organized Count", Int64.Type}, {"Scheduled One-time Meetings Attended Count", Int64.Type}, {"Scheduled Recurring Meetings Organized Count", Int64.Type}, {"Scheduled Recurring Meetings Attended Count", Int64.Type}, {"Audio Duration In Seconds", Int64.Type}, {"Video Duration In Seconds", Int64.Type}, {"Screen Share Duration In Seconds", Int64.Type}, {"Urgent Messages", Int64.Type}, {"Post Messages", Int64.Type}, {"Reply Messages", Int64.Type}})
+				in
+				    #"Changed Type"
+				```
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

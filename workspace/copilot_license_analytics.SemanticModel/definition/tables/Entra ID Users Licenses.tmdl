@@ -1,0 +1,41 @@
+table 'Entra ID Users Licenses'
+	lineageTag: f76650e4-91aa-4b11-a324-a64d6acd6c24
+
+	column id
+		dataType: string
+		lineageTag: baa5336b-80b7-40c8-ae70-a021d2d65cc6
+		summarizeBy: none
+		sourceColumn: id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'assignedLicenses.skuId'
+		dataType: string
+		lineageTag: 4bac2f0c-c0c7-4393-8293-1863161f1ec1
+		summarizeBy: none
+		sourceColumn: assignedLicenses.skuId
+
+		annotation SummarizationSetBy = Automatic
+
+	column userPrincipalName
+		dataType: string
+		lineageTag: 3346ddc8-d362-4716-8883-7b70a8780d37
+		summarizeBy: none
+		sourceColumn: userPrincipalName
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Entra ID Users Licenses' = m
+		mode: import
+		source =
+				let
+				    Source = #"Entra ID Users",
+				    #"Expanded assignedLicenses" = Table.ExpandTableColumn(Source, "assignedLicenses", {"skuId"}, {"assignedLicenses.skuId"}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Expanded assignedLicenses",{"mailNickname", "officeLocation", "usageLocation", "city", "companyName", "country", "department", "displayName", "jobTitle", "mail"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,143 @@
+relationship AutoDetected_a712cc90-fb83-4ef3-bcf8-c5bae0fe661c
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: 'Copilot User Detail'.'User Principal Name'
+	toColumn: 'Entra ID Users'.userPrincipalName
+
+relationship AutoDetected_65a0738b-70e9-4d42-b7e8-0fc9318cc0eb
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: 'Teams User Detail'.'User Principal Name'
+	toColumn: 'Entra ID Users'.userPrincipalName
+
+relationship AutoDetected_ac8de6b3-11b9-47d1-b7fa-d49c75f7f0fc
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: 'OneDrive Activity User Detail'.'User Principal Name'
+	toColumn: 'Entra ID Users'.userPrincipalName
+
+relationship AutoDetected_0c78976f-38ce-4c6a-ba38-b138cf8a03ca
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: 'M365 Apps User Detail'.'User Principal Name'
+	toColumn: 'Entra ID Users'.userPrincipalName
+
+relationship 2eec237a-336d-43f0-b8c0-f662ee1cb02a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Copilot User Count Trend'.'Report Refresh Date'
+	toColumn: LocalDateTable_c3601ab9-3d41-434a-a6d9-e27eccd7cb40.Date
+
+relationship b661356e-c841-4122-9045-fe0f964066c3
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Copilot User Count Trend'.'Report Date'
+	toColumn: LocalDateTable_c7f4125f-2813-4ede-9830-cc71c666df9e.Date
+
+relationship 524b388d-ae47-4b57-a51c-0c857770a097
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Copilot User Count Summary'.'Report Refresh Date'
+	toColumn: LocalDateTable_e527e59f-4160-442a-beb4-6bd108131e20.Date
+
+relationship d97a8712-da98-48fa-a120-c1177a298a72
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Copilot User Detail'.'Report Refresh Date'
+	toColumn: LocalDateTable_0c9d0b13-c9e2-4b6a-a315-7b11dab72fde.Date
+
+relationship 1ccc69cf-d84a-4301-9a37-b693b91febdf
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Copilot User Detail'.'Last Activity Date'
+	toColumn: LocalDateTable_83a19759-31d7-487e-b862-1a4e785aab6b.Date
+
+relationship 67fa03e8-b8f5-4c3c-8920-444c43fa04e3
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Copilot User Detail'.'Copilot Chat Last Activity Date'
+	toColumn: LocalDateTable_ea485bf1-ac01-4a04-930e-ee1853080e02.Date
+
+relationship 4072afaa-80e4-474b-92d6-9e9164ffaa5c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Copilot User Detail'.'Microsoft Teams Copilot Last Activity Date'
+	toColumn: LocalDateTable_ed99b1fa-a1e4-4606-9db8-ebc5e1d60844.Date
+
+relationship 9ee555fd-fba0-4e18-8a03-64ca1b0b8195
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Copilot User Detail'.'Word Copilot Last Activity Date'
+	toColumn: LocalDateTable_c67c8d42-8e41-41e7-9eb2-0eff51ee5da9.Date
+
+relationship fcde96d7-d0ac-4ed4-bfbe-d39a1873536b
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Copilot User Detail'.'Excel Copilot Last Activity Date'
+	toColumn: LocalDateTable_2d983025-ee0c-47d2-a593-870dc48ca026.Date
+
+relationship c0fd9429-ca63-4900-8e73-fcb4da175d5d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Copilot User Detail'.'PowerPoint Copilot Last Activity Date'
+	toColumn: LocalDateTable_62aad15f-4132-42e5-85be-5a2300762126.Date
+
+relationship 88dfcd58-01bb-4cda-ae89-8dd99b1073e8
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Copilot User Detail'.'Outlook Copilot Last Activity Date'
+	toColumn: LocalDateTable_5f1703f8-1c07-40c0-ab81-b45dc69fdefc.Date
+
+relationship f855820c-d556-4ade-801a-52df4561e40a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Copilot User Detail'.'OneNote Copilot Last Activity Date'
+	toColumn: LocalDateTable_b467e0c5-8a7e-4e57-b399-b9cda93fb87e.Date
+
+relationship 20ca7fe7-b5d2-4cc1-8a81-431464d12f79
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Copilot User Detail'.'Loop Copilot Last Activity Date'
+	toColumn: LocalDateTable_090dbf44-1f63-44c7-a2ea-bbaec8cc4864.Date
+
+relationship 9d272cbe-7149-4576-b293-99e2a73cfcfc
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Teams User Detail'.'Report Refresh Date'
+	toColumn: LocalDateTable_07fa2e10-2e11-4454-8b2b-e3b7133677fe.Date
+
+relationship e07bb0fb-bb3e-4bbe-b58b-4caef2298d5e
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Teams User Detail'.'Last Activity Date'
+	toColumn: LocalDateTable_c13d891d-cafb-4b23-9def-a329c8ee1ea5.Date
+
+relationship eeddc33a-cded-44d9-8bda-87e72c4518b3
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'OneDrive Activity User Detail'.'Report Refresh Date'
+	toColumn: LocalDateTable_eb3bf9b8-b27b-4e66-83d0-590ee4c62cff.Date
+
+relationship 552d83c9-e8cc-4451-bbe3-e411b9fcd1eb
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'OneDrive Activity User Detail'.'Last Activity Date'
+	toColumn: LocalDateTable_937b8940-805f-4c9a-a353-4143645581f6.Date
+
+relationship 42a5bd34-e996-4840-aa63-63ce7a3be93c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'M365 Apps User Detail'.'Report Refresh Date'
+	toColumn: LocalDateTable_f027ccc1-c543-432d-a2a2-940933580126.Date
+
+relationship 8958c86f-7839-49ed-8368-a664790d10a4
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'M365 Apps User Detail'.'Last Activity Date'
+	toColumn: LocalDateTable_7933c8d4-4e8c-4c70-83f4-3ebe1827e4be.Date
+
+relationship AutoDetected_8a0ee939-e0a3-403e-8213-609e4f9ad9a3
+	fromColumn: 'Entra ID Users Licenses'.userPrincipalName
+	toColumn: 'Entra ID Users'.userPrincipalName
+
+relationship 8a3496c3-632b-48ae-ad7a-848c26983f77
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Email User Details'.'Report Refresh Date'
+	toColumn: LocalDateTable_926a1ac5-ad64-45a4-8c59-a42a930bb333.Date
+
+relationship 7a5ece37-33e5-4540-b425-f3c6f1dc42a0
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Email User Details'.'Last Activity Date'
+	toColumn: LocalDateTable_56c9d636-dee5-4240-910f-fbd8809253be.Date
+
+relationship AutoDetected_dfe7775d-84b8-4f8f-98ab-41d74d0c241b
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: 'Email User Details'.'User Principal Name'
+	toColumn: 'Entra ID Users'.userPrincipalName
+
+relationship AutoDetected_3a5ba6e1-b91f-4499-a8c7-bb24b2202a14
+	fromColumn: 'Email User Details'.'Report Period'
+	toColumn: 'Copilot User Count Summary'.'Report Period'
+

@@ -1,1 +1,11 @@
-{"version":"1.0","itemType":"Report","displayName":"copilot_license_analytics"}
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Microsoft Copilot Usage"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "2f5f1582-bfce-4e2d-b1b1-8df5f67d335c"
+  }
+}

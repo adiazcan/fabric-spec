@@ -1,1 +1,11 @@
-{"version":"1.0","itemType":"SemanticModel","displayName":"copilot_license_analytics"}
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Microsoft Copilot Usage"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "6d2f2f13-3f11-4e90-9dff-65c8c4f56a21"
+  }
+}

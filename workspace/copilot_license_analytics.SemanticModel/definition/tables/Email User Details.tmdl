@@ -1,0 +1,156 @@
+table 'Email User Details'
+	lineageTag: ff274dcc-3c5a-440a-83e9-38661a8ccd0d
+
+	column 'Report Refresh Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 89749e9b-f76e-4ed6-b746-14637db83078
+		summarizeBy: none
+		sourceColumn: Report Refresh Date
+
+		variation Variation
+			isDefault
+			relationship: 8a3496c3-632b-48ae-ad7a-848c26983f77
+			defaultHierarchy: LocalDateTable_926a1ac5-ad64-45a4-8c59-a42a930bb333.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'User Principal Name'
+		dataType: string
+		lineageTag: 86d95245-e224-4f69-8023-4d5cdf2b77df
+		summarizeBy: none
+		sourceColumn: User Principal Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Display Name'
+		dataType: string
+		lineageTag: e3ef720d-18d5-4ae6-acf7-114cdb298b80
+		summarizeBy: none
+		sourceColumn: Display Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Is Deleted'
+		dataType: string
+		lineageTag: 6e3ddac1-bf14-4460-9d20-de325c27a8ff
+		summarizeBy: none
+		sourceColumn: Is Deleted
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Deleted Date'
+		dataType: string
+		lineageTag: f7cebc90-c7f0-4596-8f63-44725e30481e
+		summarizeBy: none
+		sourceColumn: Deleted Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Last Activity Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 49944753-843a-455d-9c7a-6c9f4696db87
+		summarizeBy: none
+		sourceColumn: Last Activity Date
+
+		variation Variation
+			isDefault
+			relationship: 7a5ece37-33e5-4540-b425-f3c6f1dc42a0
+			defaultHierarchy: LocalDateTable_56c9d636-dee5-4240-910f-fbd8809253be.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Send Count'
+		dataType: int64
+		formatString: 0
+		lineageTag: 0d3b4226-bf72-4e29-a95a-b52df356eba5
+		summarizeBy: sum
+		sourceColumn: Send Count
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Receive Count'
+		dataType: int64
+		formatString: 0
+		lineageTag: b497a449-8260-4db1-b341-f96a12238b80
+		summarizeBy: sum
+		sourceColumn: Receive Count
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Read Count'
+		dataType: int64
+		formatString: 0
+		lineageTag: 6d12bb07-bb32-4508-acf0-20e672849c94
+		summarizeBy: sum
+		sourceColumn: Read Count
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Meeting Created Count'
+		dataType: string
+		lineageTag: 5ccfc227-25ee-45e6-8462-5661914a049c
+		summarizeBy: none
+		sourceColumn: Meeting Created Count
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Meeting Interacted Count'
+		dataType: string
+		lineageTag: 20958f46-3d16-4b5d-b6d7-0a547b8546f7
+		summarizeBy: none
+		sourceColumn: Meeting Interacted Count
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Assigned Products'
+		dataType: string
+		lineageTag: c8eccefd-8246-49df-8be1-0143e0d6411e
+		summarizeBy: none
+		sourceColumn: Assigned Products
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Report Period'
+		dataType: string
+		lineageTag: c1bce903-6751-4a01-a489-8facc5c1a6f2
+		summarizeBy: none
+		sourceColumn: Report Period
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Email User Details' = m
+		mode: import
+		source = ```
+				let 
+				    resource="https://graph.microsoft.com",
+				    tokenResponse = Json.Document(Web.Contents("https://login.windows.net/",
+				    [
+				        RelativePath = #"Azure AD Tenant ID" & "/oauth2/token",
+				        Content = Text.ToBinary(Uri.BuildQueryString(
+				            [
+				                client_id = #"Azure Application Client ID",
+				                resource = resource,
+				                grant_type = "client_credentials",
+				                client_secret = #"Azure Application Client Secret"
+				            ]
+				        )),
+				        Headers = [Accept = "application/json"], ManualStatusHandling = {400}
+				    ])),
+				    access_token = tokenResponse[access_token],
+				    Source = Csv.Document(Web.Contents("https://graph.microsoft.com/beta/reports/getEmailActivityUserDetail(period='D30')?$format=text/csv", [ Headers = [ Authorization = "Bearer " & access_token ], ExcludedFromCacheKey = {"Authorization"} ] )),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Last Activity Date", type date}, {"Report Refresh Date", type date}, {"Send Count", Int64.Type}, {"Receive Count", Int64.Type}, {"Read Count", Int64.Type}})
+				in
+				    #"Changed Type"
+				```
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

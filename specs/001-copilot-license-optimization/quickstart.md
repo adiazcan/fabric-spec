@@ -27,6 +27,17 @@ An Azure AD (Entra ID) app registration is required:
   - `AuditLogsQuery.Read.All`
 - **Client secret**: Store in Key Vault as `graph-client-secret`
 
+Optional automation script:
+
+```bash
+./.deploy/create_app_registration.sh --key-vault "<your-key-vault-name>" --admin-consent
+```
+
+The script creates (or reuses) the app registration, assigns required Graph application permissions, creates a client secret, and writes these Key Vault secrets:
+- `graph-tenant-id`
+- `graph-client-id`
+- `graph-client-secret`
+
 ### Key Vault Secrets
 
 | Secret Name | Value |

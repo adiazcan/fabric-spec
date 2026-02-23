@@ -1,0 +1,350 @@
+table 'Measures Table'
+	lineageTag: 13b2903b-e6c4-4091-85fb-60a6ed2b176b
+
+	measure '1 User Selection History' = SELECTEDVALUE('Slicer Table History'[Value])
+		lineageTag: 7604bcc4-362d-4ed0-bedb-6d8c4be8f578
+
+	measure '1 User Selection Swith' = ```
+			
+			SWITCH(
+			    TRUE(),
+			    [1 User Selection History]="Any Copilot", [1 Any Copilot],
+			    [1 User Selection History]="Chat", [1 Chat],
+			    [1 User Selection History]="Excel", [1 Excel],
+			    [1 User Selection History]="Loop", [1 Loop],
+			    [1 User Selection History]="OneNote", [1 OneNote],
+			    [1 User Selection History]="Outlook", [1 Outlook],
+			    [1 User Selection History]="PowerPoint", [1 PowerPoint],
+			    [1 User Selection History]="Teams", [1 Teams],
+			    [1 User Selection History]="Word", [1 Word],
+			    "Select Category")
+			
+			```
+		formatString: 0
+		lineageTag: 9f93e520-d658-4e6e-91a3-ee8e3f296541
+
+	measure '1 Any Copilot' = AVERAGE('Copilot User Count Trend'[Any App Active Users])
+		formatString: 0
+		lineageTag: 43a8ae1d-18b3-406c-bc52-cb3a162ad171
+
+	measure '1 Chat' = AVERAGE('Copilot User Count Trend'[Copilot Chat Active Users])
+		formatString: 0
+		lineageTag: 3377d7ea-cc97-4a52-8595-c80b5377b694
+
+	measure '1 Excel' = AVERAGE('Copilot User Count Trend'[Excel Active Users])
+		formatString: 0
+		lineageTag: 0b1d9617-8344-4fd0-af48-2d293afeb8a2
+
+	measure '1 Loop' = AVERAGE('Copilot User Count Trend'[Loop Active Users])
+		formatString: 0
+		lineageTag: 6f362654-56e3-4e3f-9892-d82728a1d191
+
+	measure '1 OneNote' = AVERAGE('Copilot User Count Trend'[OneNote Active Users])
+		formatString: 0
+		lineageTag: 008a7f23-467d-4ba1-984f-0d6e9876b2ca
+
+	measure '1 Outlook' = AVERAGE('Copilot User Count Trend'[Outlook Active Users])
+		formatString: 0
+		lineageTag: b7284d9c-76da-4e25-a75a-e017ce9eacf1
+
+	measure '1 PowerPoint' = AVERAGE('Copilot User Count Trend'[PowerPoint Active Users])
+		formatString: 0
+		lineageTag: cd3818b2-d344-4876-b461-857b2cfcbddf
+
+	measure '1 Teams' = AVERAGE('Copilot User Count Trend'[Microsoft Teams Active Users])
+		formatString: 0
+		lineageTag: a3c3f8fa-ed6e-4905-bf37-1fddbeeae9f2
+
+	measure '1 Word' = AVERAGE('Copilot User Count Trend'[Word Active Users])
+		formatString: 0
+		lineageTag: dda5da78-3db8-4d0c-a417-778dbfa62af8
+
+	measure '1 Usage Difference' = CALCULATE(AVERAGE('Copilot User Count Trend'[Any App Enabled Users])-[1 User Selection Swith])
+		lineageTag: 7e065c2c-30c6-4b71-adff-dadf376aa907
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '1 User Selection Totals' = SELECTEDVALUE('Slicer Table Totals'[Value])
+		lineageTag: 16da99a6-6755-45a2-a468-a42758f5e50c
+
+	measure '1 User Selection Switch Totals' =
+			
+			SWITCH(
+			    TRUE(),
+			    [1 User Selection Totals]="Yes", AVERAGE('Copilot User Count Trend'[Any App Enabled Users]),
+			    BLANK())
+		formatString: 0
+		lineageTag: 86d977ca-0c1e-489c-9117-3af9ac59a285
+
+	measure '1 Summary Util %' = CALCULATE(SUM('Copilot User Count Summary'[Any App Active Users])/SUM('Copilot User Count Summary'[Any App Enabled Users]))
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: df7ddaa5-67ab-4d57-ab14-2716aa78cef6
+
+	measure '1 Summary Diff' = 1 - [1 Summary Util %]
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: c2e86653-b39b-4e33-a607-bffa069004a2
+
+	measure '2 Enabled Users %' = DIVIDE(DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name]),CALCULATE(DISTINCTCOUNTNOBLANK('Entra ID Users'[userPrincipalName]),'Entra ID Users'[Service or EXT Account]="No"))
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: e671cbe7-e8f6-4464-b408-9abbe8d0d4cd
+
+	measure '2 Enabled Users Subtitle' = FORMAT(IF(DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name])=BLANK(),0,DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name])),"#,0")
+		lineageTag: 49e706af-d458-4011-813a-7686ec1b8ebf
+
+	measure '0 Today Label' = TODAY()
+		formatString: dd/mm/yyyy
+		lineageTag: d8acee0c-5f70-4568-a97c-9b2818d902a0
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	measure '2 Active Users %' = DIVIDE([2 Active Users],DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name]))
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 339e8418-067d-4f2d-b573-dc55a9f65e70
+
+	measure '2 Active Users' = IF(CALCULATE(DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name]),'Copilot User Detail'[Last Activity Date]>=('Copilot User Detail'[Report Refresh Date]-30))=BLANK(),0,CALCULATE(DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name]),'Copilot User Detail'[Last Activity Date]>=('Copilot User Detail'[Report Refresh Date]-30)))
+		formatString: 0
+		lineageTag: 73e8b3d5-11ee-4f3b-b0bc-790109f1d081
+
+	measure '2 Active Users Subtitle' = FORMAT([2 Active Users],"#,0")
+		lineageTag: 4ef24386-1784-4902-896a-5352e6cffd9b
+
+	measure '2 Churned Users' = IF(CALCULATE(DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name]),'Copilot User Detail'[Last Activity Date]<('Copilot User Detail'[Report Refresh Date]-30),'Copilot User Detail'[Last Activity Date]>=('Copilot User Detail'[Report Refresh Date]-60))=BLANK(),0,CALCULATE(DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name]),'Copilot User Detail'[Last Activity Date]<('Copilot User Detail'[Report Refresh Date]-30),'Copilot User Detail'[Last Activity Date]>=('Copilot User Detail'[Report Refresh Date]-60)))
+		formatString: 0
+		lineageTag: c0f0ece0-f03e-4c97-ad87-ff61ddee979e
+
+	measure '2 Churned Users %' = DIVIDE([2 Churned Users],DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name]))
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 4ca041c9-0a44-490c-abb5-1ffbb60f426d
+
+	measure '2 Churned Users Subtitle' = FORMAT([2 Churned Users],"#,0")
+		lineageTag: d9aebf3a-602e-4521-9321-eec5008ba360
+
+	measure '2 Lost Users' = IF(CALCULATE(DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name]),'Copilot User Detail'[Last Activity Date]<('Copilot User Detail'[Report Refresh Date]-60),'Copilot User Detail'[Last Activity Date]<>BLANK())=BLANK(),0,CALCULATE(DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name]),'Copilot User Detail'[Last Activity Date]<('Copilot User Detail'[Report Refresh Date]-60),'Copilot User Detail'[Last Activity Date]<>BLANK()))
+		formatString: 0
+		lineageTag: 3f881097-755a-4b18-a00d-e966e0014b81
+
+	measure '2 Lost Users Subtitle' = FORMAT([2 Lost Users],"#,0")
+		lineageTag: 35d1db96-abef-4cfe-adec-59473175c707
+
+	measure '2 Lost Users %' = DIVIDE([2 Lost Users],DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name]))
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 94c6d8b7-b5b2-49f2-9f52-500a166ee886
+
+	measure '2 Never Active Users' = IF(CALCULATE(DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name]),'Copilot User Detail'[Last Activity Date]=BLANK())=BLANK(),0,CALCULATE(DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name]),'Copilot User Detail'[Last Activity Date]=BLANK()))
+		formatString: 0
+		lineageTag: 42626006-c02d-4df0-8b1d-251feb6c1d86
+
+	measure '2 Never Active Users %' = DIVIDE([2 Never Active Users],DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name]))
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 652ae190-f2d8-40f8-993e-e4e927eddf06
+
+	measure '2 Never Active Users Subtitle' = FORMAT([2 Never Active Users],"#,0")
+		lineageTag: 209155a6-e619-45d3-a6fc-b42b7f4b9196
+
+	measure '3 Non Licensed Users %' =
+			
+			Var CopilotNo = CALCULATE(DISTINCTCOUNT('Entra ID Users'[userPrincipalName]),'Entra ID Users'[Copilot User]="No",'Entra ID Users'[Service or EXT Account]="No")
+			Var EntraNo = CALCULATE(DISTINCTCOUNT('Entra ID Users'[userPrincipalName]),'Entra ID Users'[Service or EXT Account]="No")
+			Var Result = DIVIDE(CopilotNo,EntraNo)
+			RETURN
+			Result
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 62b8c252-078f-4d38-9fab-c2ea5a448e70
+
+	measure '3 Non Licensed Users Subtitle' = FORMAT(CALCULATE(DISTINCTCOUNT('Entra ID Users'[displayName]),'Entra ID Users'[Copilot User]="No", 'Entra ID Users'[Service or EXT Account]="No"),"#,0")
+		lineageTag: 3ee02ba1-6806-4ede-b736-67098473db16
+
+	measure '3 A Candidates %' =
+			
+			Var CopilotNo = CALCULATE(DISTINCTCOUNT('Entra ID Users'[userPrincipalName]),'Entra ID Users'[Copilot User]="No",'Entra ID Users'[Service or EXT Account]="No", 'Entra ID Users'[Copilot Candidacy Segment]="A")
+			Var EntraNo = CALCULATE(DISTINCTCOUNT('Entra ID Users'[userPrincipalName]),'Entra ID Users'[Service or EXT Account]="No", 'Entra ID Users'[Copilot User]="No")
+			Var Result = IF(DIVIDE(CopilotNo,EntraNo)=BLANK(),0,DIVIDE(CopilotNo,EntraNo))
+			RETURN
+			Result
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 5c708095-7b51-4840-b4ad-9c34b5dc9cda
+
+	measure '3 A Candidates Subtitle' = FORMAT(IF(CALCULATE(DISTINCTCOUNT('Entra ID Users'[userPrincipalName]),'Entra ID Users'[Copilot User]="No", 'Entra ID Users'[Service or EXT Account]="No", 'Entra ID Users'[Copilot Candidacy Segment]="A")=BLANK(),0,CALCULATE(DISTINCTCOUNT('Entra ID Users'[userPrincipalName]),'Entra ID Users'[Copilot User]="No", 'Entra ID Users'[Service or EXT Account]="No", 'Entra ID Users'[Copilot Candidacy Segment]="A")),"#,0")
+		lineageTag: 377d1fc2-21cd-40a5-a800-069caaf10699
+
+	measure '3 B Candidates %' =
+			
+			Var CopilotNo = CALCULATE(DISTINCTCOUNT('Entra ID Users'[userPrincipalName]),'Entra ID Users'[Copilot User]="No",'Entra ID Users'[Service or EXT Account]="No", 'Entra ID Users'[Copilot Candidacy Segment]="B")
+			Var EntraNo = CALCULATE(DISTINCTCOUNT('Entra ID Users'[userPrincipalName]),'Entra ID Users'[Service or EXT Account]="No", 'Entra ID Users'[Copilot User]="No")
+			Var Result = IF(DIVIDE(CopilotNo,EntraNo)=BLANK(),0,DIVIDE(CopilotNo,EntraNo))
+			RETURN
+			Result
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 59035b2a-a162-41d4-9307-7a0e6f3d8329
+
+	measure '3 C Candidates %' =
+			
+			Var CopilotNo = CALCULATE(DISTINCTCOUNT('Entra ID Users'[userPrincipalName]),'Entra ID Users'[Copilot User]="No",'Entra ID Users'[Service or EXT Account]="No", 'Entra ID Users'[Copilot Candidacy Segment]="C")
+			Var EntraNo = CALCULATE(DISTINCTCOUNT('Entra ID Users'[userPrincipalName]),'Entra ID Users'[Service or EXT Account]="No", 'Entra ID Users'[Copilot User]="No")
+			Var Result = IF(DIVIDE(CopilotNo,EntraNo)=BLANK(),0,DIVIDE(CopilotNo,EntraNo))
+			RETURN
+			Result
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 8f25a470-8a49-47d0-90a6-edb843f93c3e
+
+	measure '3 D Candidates %' =
+			
+			Var CopilotNo = CALCULATE(DISTINCTCOUNT('Entra ID Users'[userPrincipalName]),'Entra ID Users'[Copilot User]="No",'Entra ID Users'[Service or EXT Account]="No", 'Entra ID Users'[Copilot Candidacy Segment]="D")
+			Var EntraNo = CALCULATE(DISTINCTCOUNT('Entra ID Users'[userPrincipalName]),'Entra ID Users'[Service or EXT Account]="No", 'Entra ID Users'[Copilot User]="No")
+			Var Result = IF(DIVIDE(CopilotNo,EntraNo)=BLANK(),0,DIVIDE(CopilotNo,EntraNo))
+			RETURN
+			Result
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 290f6dba-7d74-4842-8634-2b812d20c10c
+
+	measure '3 B Candidates Subtitle' = FORMAT(IF(CALCULATE(DISTINCTCOUNT('Entra ID Users'[userPrincipalName]),'Entra ID Users'[Copilot User]="No", 'Entra ID Users'[Service or EXT Account]="No", 'Entra ID Users'[Copilot Candidacy Segment]="B")=BLANK(),0,CALCULATE(DISTINCTCOUNT('Entra ID Users'[userPrincipalName]),'Entra ID Users'[Copilot User]="No", 'Entra ID Users'[Service or EXT Account]="No", 'Entra ID Users'[Copilot Candidacy Segment]="B")),"#,0")
+		lineageTag: d0737e36-3455-440d-a661-45a3fecf4512
+
+	measure '3 C Candidates Subtitle' = FORMAT(IF(CALCULATE(DISTINCTCOUNT('Entra ID Users'[userPrincipalName]),'Entra ID Users'[Copilot User]="No", 'Entra ID Users'[Service or EXT Account]="No", 'Entra ID Users'[Copilot Candidacy Segment]="C")=BLANK(),0,CALCULATE(DISTINCTCOUNT('Entra ID Users'[userPrincipalName]),'Entra ID Users'[Copilot User]="No", 'Entra ID Users'[Service or EXT Account]="No", 'Entra ID Users'[Copilot Candidacy Segment]="C")),"#,0")
+		lineageTag: 1fbe597d-753b-4411-af48-a5cec165895b
+
+	measure '3 D Candidates Subtitle' = FORMAT(IF(CALCULATE(DISTINCTCOUNT('Entra ID Users'[userPrincipalName]),'Entra ID Users'[Copilot User]="No", 'Entra ID Users'[Service or EXT Account]="No", 'Entra ID Users'[Copilot Candidacy Segment]="D")=BLANK(),0,CALCULATE(DISTINCTCOUNT('Entra ID Users'[userPrincipalName]),'Entra ID Users'[Copilot User]="No", 'Entra ID Users'[Service or EXT Account]="No", 'Entra ID Users'[Copilot Candidacy Segment]="D")),"#,0")
+		lineageTag: ad48083e-5f9f-408c-99c5-0700ca84e729
+
+	measure '4 Excel Active Users %' = DIVIDE(IF(CALCULATE(DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name]),'Copilot User Detail'[Excel Copilot Last Activity Date]>=('Copilot User Detail'[Report Refresh Date]-30))=BLANK(),0,CALCULATE(DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name]),'Copilot User Detail'[Excel Copilot Last Activity Date]>=('Copilot User Detail'[Report Refresh Date]-30))),DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name]))
+		formatString: 0%;-0%;0%
+		lineageTag: 16e0edb3-1348-403e-8bf5-4591198284f4
+
+	measure '4 Any Copilot Active Users %' = DIVIDE(IF(CALCULATE(DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name]),'Copilot User Detail'[Last Activity Date]>=('Copilot User Detail'[Report Refresh Date]-30))=BLANK(),0,CALCULATE(DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name]),'Copilot User Detail'[Last Activity Date]>=('Copilot User Detail'[Report Refresh Date]-30))),DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name]))
+		formatString: 0%;-0%;0%
+		lineageTag: 604e3573-699c-472b-9298-bac2966b3e46
+
+	measure '4 Chat Active Users %' = DIVIDE(IF(CALCULATE(DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name]),'Copilot User Detail'[Copilot Chat Last Activity Date]>=('Copilot User Detail'[Report Refresh Date]-30))=BLANK(),0,CALCULATE(DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name]),'Copilot User Detail'[Copilot Chat Last Activity Date]>=('Copilot User Detail'[Report Refresh Date]-30))),DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name]))
+		formatString: 0%;-0%;0%
+		lineageTag: 68934b0f-d90e-46a8-b8eb-06ec470497e3
+
+	measure '4 Loop Active Users %' = DIVIDE(IF(CALCULATE(DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name]),'Copilot User Detail'[Loop Copilot Last Activity Date]>=('Copilot User Detail'[Report Refresh Date]-30))=BLANK(),0,CALCULATE(DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name]),'Copilot User Detail'[Loop Copilot Last Activity Date]>=('Copilot User Detail'[Report Refresh Date]-30))),DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name]))
+		formatString: 0%;-0%;0%
+		lineageTag: 640b4d71-7b6c-4db5-ab37-81600916dcf8
+
+	measure '4 OneNote Active Users %' = DIVIDE(IF(CALCULATE(DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name]),'Copilot User Detail'[OneNote Copilot Last Activity Date]>=('Copilot User Detail'[Report Refresh Date]-30))=BLANK(),0,CALCULATE(DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name]),'Copilot User Detail'[OneNote Copilot Last Activity Date]>=('Copilot User Detail'[Report Refresh Date]-30))),DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name]))
+		formatString: 0%;-0%;0%
+		lineageTag: 01571f33-cd9a-4804-b233-faa977fa523e
+
+	measure '4 Outlook Active Users %' = DIVIDE(IF(CALCULATE(DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name]),'Copilot User Detail'[Outlook Copilot Last Activity Date]>=('Copilot User Detail'[Report Refresh Date]-30))=BLANK(),0,CALCULATE(DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name]),'Copilot User Detail'[Outlook Copilot Last Activity Date]>=('Copilot User Detail'[Report Refresh Date]-30))),DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name]))
+		formatString: 0%;-0%;0%
+		lineageTag: 96a25e41-8352-48b1-98a2-6d84ac5dd33d
+
+	measure '4 PowerPoint Active Users %' = DIVIDE(IF(CALCULATE(DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name]),'Copilot User Detail'[PowerPoint Copilot Last Activity Date]>=('Copilot User Detail'[Report Refresh Date]-30))=BLANK(),0,CALCULATE(DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name]),'Copilot User Detail'[PowerPoint Copilot Last Activity Date]>=('Copilot User Detail'[Report Refresh Date]-30))),DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name]))
+		formatString: 0%;-0%;0%
+		lineageTag: baf77178-45c5-4b5e-97e2-dc772e92582a
+
+	measure '4 Teams Active Users %' = DIVIDE(IF(CALCULATE(DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name]),'Copilot User Detail'[Microsoft Teams Copilot Last Activity Date]>=('Copilot User Detail'[Report Refresh Date]-30))=BLANK(),0,CALCULATE(DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name]),'Copilot User Detail'[Microsoft Teams Copilot Last Activity Date]>=('Copilot User Detail'[Report Refresh Date]-30))),DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name]))
+		formatString: 0%;-0%;0%
+		lineageTag: 46fd0756-7508-4864-91c0-7928b6c696f9
+
+	measure '4 Word Active Users %' = DIVIDE(IF(CALCULATE(DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name]),'Copilot User Detail'[Word Copilot Last Activity Date]>=('Copilot User Detail'[Report Refresh Date]-30))=BLANK(),0,CALCULATE(DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name]),'Copilot User Detail'[Word Copilot Last Activity Date]>=('Copilot User Detail'[Report Refresh Date]-30))),DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name]))
+		formatString: 0%;-0%;0%
+		lineageTag: b975c35f-799d-4189-b378-2823a30170c3
+
+	measure '2 Warning Label' = ```
+			
+			SWITCH( TRUE(), 
+			MAX('Copilot User Detail'[Last Activity Date])=MAX('Copilot User Detail'[Microsoft Teams Copilot Last Activity Date]),"",
+			MAX('Copilot User Detail'[Last Activity Date])=MAX('Copilot User Detail'[Copilot Chat Last Activity Date]),"",
+			MAX('Copilot User Detail'[Last Activity Date])=MAX('Copilot User Detail'[Outlook Copilot Last Activity Date]),"",
+			MAX('Copilot User Detail'[Last Activity Date])=MAX('Copilot User Detail'[Excel Copilot Last Activity Date]),"",
+			MAX('Copilot User Detail'[Last Activity Date])=MAX('Copilot User Detail'[PowerPoint Copilot Last Activity Date]),"",
+			MAX('Copilot User Detail'[Last Activity Date])=MAX('Copilot User Detail'[Word Copilot Last Activity Date]),"",
+			MAX('Copilot User Detail'[Last Activity Date])=MAX('Copilot User Detail'[OneNote Copilot Last Activity Date]),"",
+			MAX('Copilot User Detail'[Last Activity Date])=MAX('Copilot User Detail'[Loop Copilot Last Activity Date]),"",
+			"Warning: This user has Last Activity date different from per any app Last Activity Date. Assumption is user used Copilot in Microsoft Edge.")
+			```
+		lineageTag: b407ef18-17b3-4d79-a6f9-3d3a2fbf5814
+
+	measure '2 Enabled Users % 2' = DIVIDE(DISTINCTCOUNTNOBLANK('Copilot User Detail'[User Principal Name]),CALCULATE(DISTINCTCOUNTNOBLANK('Entra ID Users'[userPrincipalName]),ALLEXCEPT('Entra ID Users','Entra ID Users'[Service or EXT Account])))
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: d7a2ac52-04be-4077-a891-a292fc852608
+
+	measure '5 AVG Teams Calls' = CALCULATE(AVERAGE('Teams User Detail'[Call Count]),'Entra ID Users'[Has Copilot License]="True")-CALCULATE(AVERAGE('Teams User Detail'[Call Count]),'Entra ID Users'[Has Copilot License]="False")
+		lineageTag: 4c1d7a49-1c7c-4b99-9a63-74266c844aef
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '5 AVG Teams Meetings' = CALCULATE(AVERAGE('Teams User Detail'[Meeting Count]),'Entra ID Users'[Has Copilot License]="True")-CALCULATE(AVERAGE('Teams User Detail'[Meeting Count]),'Entra ID Users'[Has Copilot License]="False")
+		lineageTag: 2d21a745-d546-4872-94d7-f6b62492592f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '5 AVG Teams Meetings Organized' = CALCULATE(AVERAGE('Teams User Detail'[Meetings Organized Count]),'Entra ID Users'[Has Copilot License]="True")-CALCULATE(AVERAGE('Teams User Detail'[Meetings Organized Count]),'Entra ID Users'[Has Copilot License]="False")
+		lineageTag: 8f4e4568-ec55-4cc2-bd58-e2dcda560012
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '5 AVG Teams Channel Messages' = CALCULATE(AVERAGE('Teams User Detail'[Channel Messages]),'Entra ID Users'[Has Copilot License]="True")-CALCULATE(AVERAGE('Teams User Detail'[Channel Messages]),'Entra ID Users'[Has Copilot License]="False")
+		lineageTag: b0154914-6940-4b03-a99f-4db4fa88cdf1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '5 AVG Teams Chat Messages' = CALCULATE(AVERAGE('Teams User Detail'[Private Chat Message Count]),'Entra ID Users'[Has Copilot License]="True")-CALCULATE(AVERAGE('Teams User Detail'[Private Chat Message Count]),'Entra ID Users'[Has Copilot License]="False")
+		lineageTag: 36e6f4e3-ab15-4c02-9a9f-f2840bb022ea
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '5 AVG Teams Audio' = CALCULATE(AVERAGE('Teams User Detail'[Audio Duration Hours]),'Entra ID Users'[Has Copilot License]="True")-CALCULATE(AVERAGE('Teams User Detail'[Audio Duration Hours]),'Entra ID Users'[Has Copilot License]="False")
+		lineageTag: 621302ae-c07b-4cfa-a4a8-a593ad098c16
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '5 AVG Teams Video' = CALCULATE(AVERAGE('Teams User Detail'[Video Duration Hours]),'Entra ID Users'[Has Copilot License]="True")-CALCULATE(AVERAGE('Teams User Detail'[Video Duration Hours]),'Entra ID Users'[Has Copilot License]="False")
+		lineageTag: 15802a32-ffda-4daf-9e6c-3049c4124b6a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '5 AVG Teams SceenShare' = CALCULATE(AVERAGE('Teams User Detail'[Screen Share Duration Hours]),'Entra ID Users'[Has Copilot License]="True")-CALCULATE(AVERAGE('Teams User Detail'[Screen Share Duration Hours]),'Entra ID Users'[Has Copilot License]="False")
+		lineageTag: bccb6bfb-2f40-4b02-8367-cef40eef263d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '5 AVG OneDrive Edit' = CALCULATE(AVERAGE('OneDrive Activity User Detail'[Viewed Or Edited File Count]),'Entra ID Users'[Has Copilot License]="True")-CALCULATE(AVERAGE('OneDrive Activity User Detail'[Viewed Or Edited File Count]),'Entra ID Users'[Has Copilot License]="False")
+		lineageTag: 2a40a6d5-b046-4ce1-9d61-b139a7dae266
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '5 AVG OneDrive Sync' = CALCULATE(AVERAGE('OneDrive Activity User Detail'[Synced File Count]),'Entra ID Users'[Has Copilot License]="True")-CALCULATE(AVERAGE('OneDrive Activity User Detail'[Synced File Count]),'Entra ID Users'[Has Copilot License]="False")
+		lineageTag: 802ff3ad-f822-4612-8118-2256a2f80c57
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '5 AVG OneDrive SharedInt' = CALCULATE(AVERAGE('OneDrive Activity User Detail'[Shared Internally File Count]),'Entra ID Users'[Has Copilot License]="True")-CALCULATE(AVERAGE('OneDrive Activity User Detail'[Shared Internally File Count]),'Entra ID Users'[Has Copilot License]="False")
+		lineageTag: 494aa8b9-c1a7-42c8-8853-bcb8a52cd37c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '5 AVG OneDrive SharedExt' = CALCULATE(AVERAGE('OneDrive Activity User Detail'[Shared Externally File Count]),'Entra ID Users'[Has Copilot License]="True")-CALCULATE(AVERAGE('OneDrive Activity User Detail'[Shared Externally File Count]),'Entra ID Users'[Has Copilot License]="False")
+		lineageTag: ff5d3742-b8e0-49bb-9201-87e991aebeef
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '5 AVG Emails Send' = CALCULATE(AVERAGE('Email User Details'[Send Count]),'Entra ID Users'[Has Copilot License]="True")-CALCULATE(AVERAGE('Email User Details'[Send Count]),'Entra ID Users'[Has Copilot License]="False")
+		lineageTag: de9c6361-295d-440f-ab1c-cf9a6dea9499
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '5 AVG Emails Received' = CALCULATE(AVERAGE('Email User Details'[Receive Count]),'Entra ID Users'[Has Copilot License]="True")-CALCULATE(AVERAGE('Email User Details'[Receive Count]),'Entra ID Users'[Has Copilot License]="False")
+		lineageTag: b83050da-249d-4780-b3ed-476d148e44cc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '5 AVG Emails Read' = CALCULATE(AVERAGE('Email User Details'[Read Count]),'Entra ID Users'[Has Copilot License]="True")-CALCULATE(AVERAGE('Email User Details'[Read Count]),'Entra ID Users'[Has Copilot License]="False")
+		lineageTag: 4d423907-7cdb-44b8-b0b3-a3e5b70d0724
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'Measures Table' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

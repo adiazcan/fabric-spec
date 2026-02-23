@@ -1,0 +1,36 @@
+table 'Slicer Table Totals'
+	lineageTag: bc913aa2-f43d-408e-9a3a-ea2a61d488c4
+
+	column Value
+		dataType: string
+		lineageTag: a16f6efd-5c4d-49d6-928c-47070cec0917
+		summarizeBy: none
+		sourceColumn: Value
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Order
+		dataType: int64
+		formatString: 0
+		lineageTag: d5d4185a-c97f-4be6-b099-de7e0c5fd02e
+		summarizeBy: sum
+		sourceColumn: Order
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Slicer Table Totals' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WikwtVtJRMlSK1YlW8ssHMo2UYmMB", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Value = _t, Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Value", type text}, {"Column1", Int64.Type}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"Column1", "Order"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_ResultType = Table
+

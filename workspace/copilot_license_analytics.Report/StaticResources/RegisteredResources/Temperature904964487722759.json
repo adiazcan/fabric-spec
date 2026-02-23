@@ -1,0 +1,19 @@
+{
+  "name": "Temperature",
+  "dataColors": [
+    "#092B42",
+    "#076AB5",
+    "#2F8AC3",
+    "#26B0D2",
+    "#FFC1CB",
+    "#9782FF",
+    "#AE3535",
+    "#D262FF"
+  ],
+  "tableAccent": "#262A76",
+  "maximum": "#262A76",
+  "center": "#8E1F20",
+  "minimum": "#F1F1F1",
+  "bad": "#940713",
+  "good": "#CAFF2B"
+}

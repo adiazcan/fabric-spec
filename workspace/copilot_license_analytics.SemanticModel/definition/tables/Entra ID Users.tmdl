@@ -1,0 +1,168 @@
+table 'Entra ID Users'
+	lineageTag: 885166d0-bb30-4277-8301-0ca50f79c64b
+
+	column id
+		dataType: string
+		lineageTag: 7e5594b6-96a3-47f4-896f-779ad35676ec
+		summarizeBy: none
+		sourceColumn: id
+
+		annotation SummarizationSetBy = Automatic
+
+	column city
+		dataType: string
+		lineageTag: 33fcff67-a23f-4c2e-885e-f04c6485b4e9
+		summarizeBy: none
+		sourceColumn: city
+
+		annotation SummarizationSetBy = Automatic
+
+	column companyName
+		dataType: string
+		lineageTag: 277b187e-9918-4734-81c1-ec99aa0cf0a3
+		summarizeBy: none
+		sourceColumn: companyName
+
+		annotation SummarizationSetBy = Automatic
+
+	column country
+		dataType: string
+		lineageTag: cee8ae8b-4f7b-4762-9bae-3eb4826edd47
+		summarizeBy: none
+		sourceColumn: country
+
+		annotation SummarizationSetBy = Automatic
+
+	column department
+		dataType: string
+		lineageTag: 0fdc5d35-0e1d-4acf-b743-98df1dd3742e
+		summarizeBy: none
+		sourceColumn: department
+
+		annotation SummarizationSetBy = Automatic
+
+	column displayName
+		dataType: string
+		lineageTag: 9260d52a-075e-4871-ad74-040417012ce9
+		summarizeBy: none
+		sourceColumn: displayName
+
+		annotation SummarizationSetBy = Automatic
+
+	column jobTitle
+		dataType: string
+		lineageTag: d7b0bcb4-49c2-49cf-b7d2-7853b97d0378
+		summarizeBy: none
+		sourceColumn: jobTitle
+
+		annotation SummarizationSetBy = Automatic
+
+	column mail
+		dataType: string
+		lineageTag: 051b07b6-7481-45a6-ac1b-f6f4d5dd69b6
+		summarizeBy: none
+		sourceColumn: mail
+
+		annotation SummarizationSetBy = Automatic
+
+	column mailNickname
+		dataType: string
+		lineageTag: 6f9aba78-08f8-4f03-9669-87c2103660ad
+		summarizeBy: none
+		sourceColumn: mailNickname
+
+		annotation SummarizationSetBy = Automatic
+
+	column officeLocation
+		dataType: string
+		lineageTag: f45854b3-f697-44d1-af6c-a3ae9006bfbd
+		summarizeBy: none
+		sourceColumn: officeLocation
+
+		annotation SummarizationSetBy = Automatic
+
+	column usageLocation
+		dataType: string
+		lineageTag: 724448b1-18d1-4c4c-ae7f-ebf938849a96
+		summarizeBy: none
+		sourceColumn: usageLocation
+
+		annotation SummarizationSetBy = Automatic
+
+	column userPrincipalName
+		dataType: string
+		lineageTag: f9290667-697b-473a-aaed-6fca96375980
+		summarizeBy: none
+		sourceColumn: userPrincipalName
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Copilot Candidacy Rating' = RELATED('OneDrive Activity User Detail'[OneDrive Usage Maturity Rating])+RELATED('M365 Apps User Detail'[M365Apps Usage Maturity Rating])+RELATED('Teams User Detail'[Teams Usage Maturity Rating])
+		lineageTag: ed50ac08-ca35-4ada-84a1-f67f2947b9b9
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Copilot Candidacy Segment' =
+			
+			SWITCH(
+			    TRUE(),
+			    'Entra ID Users'[Copilot Candidacy Rating]=0,"D",
+			    'Entra ID Users'[Copilot Candidacy Rating]<5,"C",
+			    'Entra ID Users'[Copilot Candidacy Rating]<11, "B",
+			    "A")
+		lineageTag: 37ff4de9-4a42-4fef-8ee1-52f4054076b2
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Copilot User' =
+			
+			IF( 'Entra ID Users'[displayName] IN SELECTCOLUMNS(RELATEDTABLE('Copilot User Detail'),'Copilot User Detail'[Display Name]), "Yes", "No")
+		lineageTag: 058b3065-f85f-431a-821b-98b572fbc0f6
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Service or EXT Account' = IF('Entra ID Users'[Copilot Candidacy Rating]=BLANK(),"Yes","No")
+		lineageTag: c12ff55b-72d5-48cf-856d-70e011de8a10
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Has Copilot License' = If(COUNTROWS(FILTER(FILTER('Entra ID Users Licenses','Entra ID Users Licenses'[id]='Entra ID Users'[id]),'Entra ID Users Licenses'[assignedLicenses.skuId]="639dec6b-bb19-468b-871c-c5c441c4b0cb"))=0,"False","True")
+		lineageTag: 5324f62c-699b-416d-918f-2415530babfa
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Entra ID Users' = m
+		mode: import
+		source = ```
+				let 
+				    resource="https://graph.microsoft.com",
+				    tokenResponse = Json.Document(Web.Contents("https://login.windows.net/",
+				    [
+				        RelativePath = #"Azure AD Tenant ID" & "/oauth2/token",
+				        Content = Text.ToBinary(Uri.BuildQueryString(
+				            [
+				                client_id = #"Azure Application Client ID",
+				                resource = resource,
+				                grant_type = "client_credentials",
+				                client_secret = #"Azure Application Client Secret"
+				            ]
+				        )),
+				        Headers = [Accept = "application/json"], ManualStatusHandling = {400}
+				    ])),
+				    access_token = tokenResponse[access_token],
+				    Source = OData.Feed("https://graph.microsoft.com/beta/users?$select=id,city,companyName,country,department,displayName,jobTitle,mail,mailNickname,officeLocation,usageLocation,userPrincipalName,assignedLicenses", [ Authorization = "Bearer " & access_token ], [ ExcludedFromCacheKey = {"Authorization"}, ODataVersion = 4, Implementation = "2.0" ])
+				in
+				    Source
+				```
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,11 @@
+{
+  "name": "daily_refresh_pipeline",
+  "properties": {
+    "description": "Deployable placeholder pipeline definition. Notebook activity bindings require in-workspace rebind.",
+    "annotations": [
+      "US7",
+      "bronze-silver-gold"
+    ],
+    "activities": []
+  }
+}

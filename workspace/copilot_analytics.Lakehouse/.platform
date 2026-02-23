@@ -1,1 +1,1 @@
-{"version":"1.0","itemType":"Lakehouse","displayName":"copilot_analytics"}
+{"version":"1.0","metadata":{"type":"Lakehouse","displayName":"copilot_analytics","description":""},"config":{"logicalId":"9c2b1e06-8589-58f9-b0d5-c7442602c4eb"}}

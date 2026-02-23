@@ -1,0 +1,235 @@
+table 'Copilot User Count Trend'
+	lineageTag: c52fd83c-cc4d-4dea-bfc1-afe8e69cb9db
+
+	column 'Report Refresh Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 6c14c8b4-5cb7-4419-81a5-53271ec32789
+		summarizeBy: none
+		sourceColumn: Report Refresh Date
+
+		variation Variation
+			isDefault
+			relationship: 2eec237a-336d-43f0-b8c0-f662ee1cb02a
+			defaultHierarchy: LocalDateTable_c3601ab9-3d41-434a-a6d9-e27eccd7cb40.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Report Period'
+		dataType: string
+		lineageTag: 02b06f3e-e2ed-4c30-9603-04a5e8875c8a
+		summarizeBy: none
+		sourceColumn: Report Period
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Report Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 34dea2bd-d929-4cbb-9139-99ac5d355ba1
+		summarizeBy: none
+		sourceColumn: Report Date
+
+		variation Variation
+			isDefault
+			relationship: b661356e-c841-4122-9045-fe0f964066c3
+			defaultHierarchy: LocalDateTable_c7f4125f-2813-4ede-9830-cc71c666df9e.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Microsoft Teams Enabled Users'
+		dataType: int64
+		formatString: 0
+		lineageTag: ce55898e-ae33-46da-b93d-565d4776b298
+		summarizeBy: sum
+		sourceColumn: Microsoft Teams Enabled Users
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Microsoft Teams Active Users'
+		dataType: int64
+		formatString: 0
+		lineageTag: 133b39a5-0185-40ba-b4dc-697191cde869
+		summarizeBy: sum
+		sourceColumn: Microsoft Teams Active Users
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Word Enabled Users'
+		dataType: int64
+		formatString: 0
+		lineageTag: 6eb583d9-5c80-4b41-a4ff-6d23d3a50ad0
+		summarizeBy: sum
+		sourceColumn: Word Enabled Users
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Word Active Users'
+		dataType: int64
+		formatString: 0
+		lineageTag: c62bc83b-c83d-4f1c-8564-820e57f304f8
+		summarizeBy: sum
+		sourceColumn: Word Active Users
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'PowerPoint Enabled Users'
+		dataType: int64
+		formatString: 0
+		lineageTag: 610811e7-00b7-4a74-858d-e3600a0d5aeb
+		summarizeBy: sum
+		sourceColumn: PowerPoint Enabled Users
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'PowerPoint Active Users'
+		dataType: int64
+		formatString: 0
+		lineageTag: b55ba289-ada1-4dce-b929-357035259191
+		summarizeBy: sum
+		sourceColumn: PowerPoint Active Users
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Outlook Enabled Users'
+		dataType: int64
+		formatString: 0
+		lineageTag: 9fd48168-d9c3-4996-9a1a-72c91979cb43
+		summarizeBy: sum
+		sourceColumn: Outlook Enabled Users
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Outlook Active Users'
+		dataType: int64
+		formatString: 0
+		lineageTag: c0871ab8-238d-4da2-976a-c224bf259aed
+		summarizeBy: sum
+		sourceColumn: Outlook Active Users
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Excel Enabled Users'
+		dataType: int64
+		formatString: 0
+		lineageTag: e12166bb-cd32-4fd3-a60f-c811816c7fee
+		summarizeBy: sum
+		sourceColumn: Excel Enabled Users
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Excel Active Users'
+		dataType: int64
+		formatString: 0
+		lineageTag: c8c8f18f-a9ba-4524-aca5-64be61333f76
+		summarizeBy: sum
+		sourceColumn: Excel Active Users
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'OneNote Enabled Users'
+		dataType: int64
+		formatString: 0
+		lineageTag: b7af6f4f-28ac-4142-8b4e-4ff8bd1bad27
+		summarizeBy: sum
+		sourceColumn: OneNote Enabled Users
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'OneNote Active Users'
+		dataType: int64
+		formatString: 0
+		lineageTag: ac1920c3-3760-4788-a25f-0c46ff9c20b6
+		summarizeBy: sum
+		sourceColumn: OneNote Active Users
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Loop Enabled Users'
+		dataType: int64
+		formatString: 0
+		lineageTag: 6ae36200-14be-4685-8345-62a9f08d419e
+		summarizeBy: sum
+		sourceColumn: Loop Enabled Users
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Loop Active Users'
+		dataType: int64
+		formatString: 0
+		lineageTag: c9d7f764-3125-4e0b-8bff-b6ef5d93c894
+		summarizeBy: sum
+		sourceColumn: Loop Active Users
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Any App Enabled Users'
+		dataType: int64
+		formatString: 0
+		lineageTag: e3051e90-2b2f-4d88-abe2-67dc0da69368
+		summarizeBy: sum
+		sourceColumn: Any App Enabled Users
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Any App Active Users'
+		dataType: int64
+		formatString: 0
+		lineageTag: 24085b0d-91b4-4f75-b6c3-d837df5cbc06
+		summarizeBy: sum
+		sourceColumn: Any App Active Users
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Copilot Chat Enabled Users'
+		dataType: int64
+		formatString: 0
+		lineageTag: c639ab97-afb8-4edd-8cb0-ff163b7bad75
+		summarizeBy: sum
+		sourceColumn: Copilot Chat Enabled Users
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Copilot Chat Active Users'
+		dataType: int64
+		formatString: 0
+		lineageTag: 645346e1-9b18-4dd1-90f6-de9f67f98e0d
+		summarizeBy: sum
+		sourceColumn: Copilot Chat Active Users
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Copilot User Count Trend' = m
+		mode: import
+		source = ```
+				let 
+				    resource="https://graph.microsoft.com",
+				    tokenResponse = Json.Document(Web.Contents("https://login.windows.net/",
+				    [
+				        RelativePath = #"Azure AD Tenant ID" & "/oauth2/token",
+				        Content = Text.ToBinary(Uri.BuildQueryString(
+				            [
+				                client_id = #"Azure Application Client ID",
+				                resource = resource,
+				                grant_type = "client_credentials",
+				                client_secret = #"Azure Application Client Secret"
+				            ]
+				        )),
+				        Headers = [Accept = "application/json"], ManualStatusHandling = {400}
+				    ])),
+				    access_token = tokenResponse[access_token],
+				    Source = Csv.Document(Web.Contents("https://graph.microsoft.com/beta/reports/getMicrosoft365CopilotUserCountTrend(period='D180')?$format=text/csv", [ Headers = [ Authorization = "Bearer " & access_token ], ExcludedFromCacheKey = {"Authorization"} ] )),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Report Date", type date}, {"Report Refresh Date", type date}, {"Microsoft Teams Enabled Users", Int64.Type}, {"Microsoft Teams Active Users", Int64.Type}, {"Word Enabled Users", Int64.Type}, {"Word Active Users", Int64.Type}, {"PowerPoint Enabled Users", Int64.Type}, {"PowerPoint Active Users", Int64.Type}, {"Outlook Enabled Users", Int64.Type}, {"Outlook Active Users", Int64.Type}, {"Excel Enabled Users", Int64.Type}, {"Excel Active Users", Int64.Type}, {"OneNote Enabled Users", Int64.Type}, {"OneNote Active Users", Int64.Type}, {"Loop Enabled Users", Int64.Type}, {"Loop Active Users", Int64.Type}, {"Any App Enabled Users", Int64.Type}, {"Any App Active Users", Int64.Type}, {"Copilot Chat Enabled Users", Int64.Type}, {"Copilot Chat Active Users", Int64.Type}})
+				in
+				    #"Changed Type"
+				```
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

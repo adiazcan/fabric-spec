@@ -1,1 +1,1 @@
-{"version":"1.0","itemType":"DataPipeline","displayName":"daily_refresh_pipeline"}
+{"version":"1.0","metadata":{"type":"DataPipeline","displayName":"daily_refresh_pipeline","description":""},"config":{"logicalId":"baa74911-4727-5772-a950-68ec9c091a6d"}}

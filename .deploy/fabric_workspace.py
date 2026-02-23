@@ -13,7 +13,7 @@ def main() -> None:
     target_workspace = FabricWorkspace(
         workspace_id=workspace_id,
         environment=environment,
-        repository_directory=".",
+        repository_directory="./workspace",
         item_type_in_scope=[
             "Notebook",
             "DataPipeline",

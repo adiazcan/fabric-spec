@@ -1,0 +1,157 @@
+table 'OneDrive Activity User Detail'
+	lineageTag: fe585895-998f-4cc1-9c22-10b5737173ce
+
+	column 'Report Refresh Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: e038f5a9-1d73-47f9-9f64-86c0e3ee835b
+		summarizeBy: none
+		sourceColumn: Report Refresh Date
+
+		variation Variation
+			isDefault
+			relationship: eeddc33a-cded-44d9-8bda-87e72c4518b3
+			defaultHierarchy: LocalDateTable_eb3bf9b8-b27b-4e66-83d0-590ee4c62cff.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'User Principal Name'
+		dataType: string
+		lineageTag: aec406de-1e03-4500-85e2-69d1d67277e6
+		summarizeBy: none
+		sourceColumn: User Principal Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Is Deleted'
+		dataType: string
+		lineageTag: f99cad39-ccc9-481f-b65a-40299a87332a
+		summarizeBy: none
+		sourceColumn: Is Deleted
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Deleted Date'
+		dataType: string
+		lineageTag: 0755beff-d967-44f0-a591-ffec9b217294
+		summarizeBy: none
+		sourceColumn: Deleted Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Last Activity Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 60e1af2d-6074-4b9d-a1c3-6fef8ca25ffa
+		summarizeBy: none
+		sourceColumn: Last Activity Date
+
+		variation Variation
+			isDefault
+			relationship: 552d83c9-e8cc-4451-bbe3-e411b9fcd1eb
+			defaultHierarchy: LocalDateTable_937b8940-805f-4c9a-a353-4143645581f6.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Viewed Or Edited File Count'
+		dataType: int64
+		formatString: 0
+		lineageTag: c3bc4399-0b37-4def-af07-11ee46819016
+		summarizeBy: sum
+		sourceColumn: Viewed Or Edited File Count
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Synced File Count'
+		dataType: int64
+		formatString: 0
+		lineageTag: 83300c78-be22-4a8f-9890-5eda7e733366
+		summarizeBy: sum
+		sourceColumn: Synced File Count
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Shared Internally File Count'
+		dataType: int64
+		formatString: 0
+		lineageTag: 0261ca50-8341-473a-8fc4-aa3719d1a6d4
+		summarizeBy: sum
+		sourceColumn: Shared Internally File Count
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Shared Externally File Count'
+		dataType: int64
+		formatString: 0
+		lineageTag: 4017e07b-de44-4583-a2dd-0e7bb1804672
+		summarizeBy: sum
+		sourceColumn: Shared Externally File Count
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Assigned Products'
+		dataType: string
+		lineageTag: de0c9244-e616-4481-97a4-fdde902eb467
+		summarizeBy: none
+		sourceColumn: Assigned Products
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Report Period'
+		dataType: string
+		lineageTag: 0cb215e4-3c47-4aa4-af50-2d19c581a9cf
+		summarizeBy: none
+		sourceColumn: Report Period
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'OneDrive Usage Maturity Rating' =
+			
+			VAR View=IF('OneDrive Activity User Detail'[Viewed Or Edited File Count]=0,0,IF('OneDrive Activity User Detail'[Viewed Or Edited File Count]>=20,1,0.5))
+			VAR Sync=IF('OneDrive Activity User Detail'[Synced File Count]=0,0,IF('OneDrive Activity User Detail'[Synced File Count]>=20,1,0.5))
+			VAR SharedI=IF('OneDrive Activity User Detail'[Shared Internally File Count]=0,0,1)
+			VAR SharedE=IF('OneDrive Activity User Detail'[Shared Externally File Count]=0,0,1)
+			VAR Rating = View+Sync+SharedE+SharedI
+			RETURN
+			Rating
+		lineageTag: 6743c388-fb3f-46e8-a165-8fb9391ce115
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'OneDrive Activity User Detail' = m
+		mode: import
+		source = ```
+				let 
+				    resource="https://graph.microsoft.com",
+				    tokenResponse = Json.Document(Web.Contents("https://login.windows.net/",
+				    [
+				        RelativePath = #"Azure AD Tenant ID" & "/oauth2/token",
+				        Content = Text.ToBinary(Uri.BuildQueryString(
+				            [
+				                client_id = #"Azure Application Client ID",
+				                resource = resource,
+				                grant_type = "client_credentials",
+				                client_secret = #"Azure Application Client Secret"
+				            ]
+				        )),
+				        Headers = [Accept = "application/json"], ManualStatusHandling = {400}
+				    ])),
+				    access_token = tokenResponse[access_token],
+				    Source = Csv.Document(Web.Contents("https://graph.microsoft.com/beta/reports/getOneDriveActivityUserDetail(period='D30')?$format=text/csv", [ Headers = [ Authorization = "Bearer " & access_token ], ExcludedFromCacheKey = {"Authorization"} ] )),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Report Refresh Date", type date}, {"Last Activity Date", type date}, {"Viewed Or Edited File Count", Int64.Type}, {"Synced File Count", Int64.Type}, {"Shared Internally File Count", Int64.Type}, {"Shared Externally File Count", Int64.Type}})
+				in
+				    #"Changed Type"
+				```
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

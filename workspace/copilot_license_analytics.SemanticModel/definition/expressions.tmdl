@@ -1,0 +1,21 @@
+expression 'Azure AD Tenant ID' = "REPLACE_WITH_TENANT_ID" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: a7c0362f-fcea-4e86-82ea-433f697c7483
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+
+expression 'Azure Application Client ID' = "REPLACE_WITH_CLIENT_ID" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: 9a4b8a20-220f-4a3a-ac3a-6d31a7d0e104
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+
+expression 'Azure Application Client Secret' = "REPLACE_WITH_CLIENT_SECRET" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: 1fa5e1eb-b955-437d-9497-32ea4b710297
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+

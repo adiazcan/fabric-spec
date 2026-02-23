@@ -1,0 +1,51 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["Azure AD Tenant ID","Azure Application Client ID","Azure Application Client Secret","Copilot User Detail","Copilot User Count Trend","Copilot User Count Summary","Entra ID Users","Teams User Detail","OneDrive Activity User Detail","M365 Apps User Detail","Slicer Table History","Measures Table","Slicer Table Totals","Entra ID Users Licenses","Email User Details"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_ProTooling = ["DaxCopilot_Change_Accepted_In_Desktop","DaxQueryView_Desktop"]
+
+ref table 'Copilot User Detail'
+ref table 'Copilot User Count Trend'
+ref table 'Copilot User Count Summary'
+ref table 'Entra ID Users'
+ref table 'Teams User Detail'
+ref table 'OneDrive Activity User Detail'
+ref table 'M365 Apps User Detail'
+ref table DateTableTemplate_a4b59334-48b0-454d-9b0b-6ba3b50ab42c
+ref table LocalDateTable_c3601ab9-3d41-434a-a6d9-e27eccd7cb40
+ref table LocalDateTable_c7f4125f-2813-4ede-9830-cc71c666df9e
+ref table LocalDateTable_e527e59f-4160-442a-beb4-6bd108131e20
+ref table LocalDateTable_0c9d0b13-c9e2-4b6a-a315-7b11dab72fde
+ref table LocalDateTable_83a19759-31d7-487e-b862-1a4e785aab6b
+ref table LocalDateTable_ea485bf1-ac01-4a04-930e-ee1853080e02
+ref table LocalDateTable_ed99b1fa-a1e4-4606-9db8-ebc5e1d60844
+ref table LocalDateTable_c67c8d42-8e41-41e7-9eb2-0eff51ee5da9
+ref table LocalDateTable_2d983025-ee0c-47d2-a593-870dc48ca026
+ref table LocalDateTable_62aad15f-4132-42e5-85be-5a2300762126
+ref table LocalDateTable_5f1703f8-1c07-40c0-ab81-b45dc69fdefc
+ref table LocalDateTable_b467e0c5-8a7e-4e57-b399-b9cda93fb87e
+ref table LocalDateTable_090dbf44-1f63-44c7-a2ea-bbaec8cc4864
+ref table LocalDateTable_07fa2e10-2e11-4454-8b2b-e3b7133677fe
+ref table LocalDateTable_c13d891d-cafb-4b23-9def-a329c8ee1ea5
+ref table LocalDateTable_eb3bf9b8-b27b-4e66-83d0-590ee4c62cff
+ref table LocalDateTable_937b8940-805f-4c9a-a353-4143645581f6
+ref table LocalDateTable_f027ccc1-c543-432d-a2a2-940933580126
+ref table LocalDateTable_7933c8d4-4e8c-4c70-83f4-3ebe1827e4be
+ref table 'Slicer Table History'
+ref table 'Measures Table'
+ref table 'Slicer Table Totals'
+ref table 'Entra ID Users Licenses'
+ref table 'Email User Details'
+ref table LocalDateTable_926a1ac5-ad64-45a4-8c59-a42a930bb333
+ref table LocalDateTable_56c9d636-dee5-4240-910f-fbd8809253be
+
+ref cultureInfo en-US
+
