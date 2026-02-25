@@ -1,0 +1,2 @@
+[console_scripts]
+fab = fabric_cli.main:main
