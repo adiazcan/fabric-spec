@@ -62,14 +62,24 @@ description: "Task list template for feature implementation"
 
 Examples of foundational tasks (adjust based on your project):
 
-- [ ] T004 Setup database schema and migrations framework
-- [ ] T005 [P] Implement authentication/authorization framework
-- [ ] T006 [P] Setup API routing and middleware structure
-- [ ] T007 Create base models/entities that all stories depend on
-- [ ] T008 Configure error handling and logging infrastructure
-- [ ] T009 Setup environment configuration management
+- [ ] T004 [P] Configure `dev/parameter.yml` and `prod/parameter.yml` with workspace
+      IDs, Lakehouse paths, API endpoints, and Key Vault secret names (no secret
+      values) — Principle II & VIII
+- [ ] T005 [P] Implement Service Principal authentication helper in shared utilities
+      notebook; verify Key Vault secret retrieval — Principle I & II
+- [ ] T006 [P] Create `audit_log` Delta table schema in Gold Lakehouse and implement
+      shared `write_audit_entry()` utility — Principle VII
+- [ ] T007 [P] Create `dq_results` Delta table schema and implement shared
+      `write_dq_result()` utility for quality check persistence — Principle VII
+- [ ] T008 Create Bronze, Silver, Gold Lakehouse layer structure and define naming
+      conventions (`<layer>_<domain>_<entity>`) — Principle IV
+- [ ] T009 Implement shared retry/backoff utility with exponential backoff + jitter
+      (max 5 retries, base 1 s, max 60 s) — Principle VI
+- [ ] T010 Configure GitHub Actions workflow: lint → secret-scan → validate steps;
+      integrate Fabric CI/CD API deploy step — Principle VIII
 
-**Checkpoint**: Foundation ready - user story implementation can now begin in parallel
+**Checkpoint**: Foundation ready — Service Principal auth, Key Vault integration,
+audit/DQ tables, retry utility, and CI pipeline in place. User story work can begin.
 
 ---
 
@@ -83,17 +93,17 @@ Examples of foundational tasks (adjust based on your project):
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T010 [P] [US1] Contract test for [endpoint] in tests/contract/test_[name].py
-- [ ] T011 [P] [US1] Integration test for [user journey] in tests/integration/test_[name].py
+- [ ] T011 [P] [US1] Contract test for [endpoint] in tests/contract/test_[name].py
+- [ ] T012 [P] [US1] Integration test for [user journey] in tests/integration/test_[name].py
 
 ### Implementation for User Story 1
 
-- [ ] T012 [P] [US1] Create [Entity1] model in src/models/[entity1].py
-- [ ] T013 [P] [US1] Create [Entity2] model in src/models/[entity2].py
-- [ ] T014 [US1] Implement [Service] in src/services/[service].py (depends on T012, T013)
-- [ ] T015 [US1] Implement [endpoint/feature] in src/[location]/[file].py
-- [ ] T016 [US1] Add validation and error handling
-- [ ] T017 [US1] Add logging for user story 1 operations
+- [ ] T013 [P] [US1] Create [Entity1] model in src/models/[entity1].py
+- [ ] T014 [P] [US1] Create [Entity2] model in src/models/[entity2].py
+- [ ] T015 [US1] Implement [Service] in src/services/[service].py (depends on T013, T014)
+- [ ] T016 [US1] Implement [endpoint/feature] in src/[location]/[file].py
+- [ ] T017 [US1] Add validation and error handling
+- [ ] T018 [US1] Add logging for user story 1 operations
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
 
