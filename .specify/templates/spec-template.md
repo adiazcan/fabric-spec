@@ -85,7 +85,7 @@
 ### Functional Requirements
 
 - **FR-001**: System MUST [specific capability, e.g., "allow users to create accounts"]
-- **FR-002**: System MUST [specific capability, e.g., "validate email addresses"]  
+- **FR-002**: System MUST [specific capability, e.g., "validate email addresses"]
 - **FR-003**: Users MUST be able to [key interaction, e.g., "reset their password"]
 - **FR-004**: System MUST [data requirement, e.g., "persist user preferences"]
 - **FR-005**: System MUST [behavior, e.g., "log all security events"]
@@ -94,6 +94,26 @@
 
 - **FR-006**: System MUST authenticate users via [NEEDS CLARIFICATION: auth method not specified - email/password, SSO, OAuth?]
 - **FR-007**: System MUST retain user data for [NEEDS CLARIFICATION: retention period not specified]
+
+### Security & Compliance Requirements *(mandatory for all Fabric features)*
+
+<!--
+  These requirements are NON-NEGOTIABLE per the project constitution (Principles I–II, VII).
+  Replace bracketed values with feature-specific details; do not remove these entries.
+  Note: SEC- prefix used here to avoid collision with the SC- Success Criteria prefix below.
+-->
+
+- **SEC-001**: Feature MUST use Service Principal authentication for all Fabric and
+  data-source access (Principle I).
+- **SEC-002**: All secrets required by this feature MUST be stored in Azure Key Vault
+  and referenced by name only in `parameter.yml` (Principle II).
+- **SEC-003**: All data-access operations and external API calls introduced by this
+  feature MUST produce audit log entries written to the `audit_log` Delta table
+  (Principle VII).
+- **SEC-004**: Data quality check results (row counts, null %, freshness) for this
+  feature MUST be persisted to `dq_results` after every pipeline run (Principle VII).
+- **SEC-005**: [Any additional compliance requirement specific to this feature, e.g.,
+  "PII fields MUST be masked in Silver layer before exposure to Gold"]
 
 ### Key Entities *(include if feature involves data)*
 

@@ -31,7 +31,30 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+**NON-NEGOTIABLE gates — ALL must be ✅ before implementation begins:**
+
+- [ ] **P-I  (Security)**      Service Principal authentication planned; interactive
+      user credentials absent from all notebook and pipeline definitions.
+- [ ] **P-II (Secrets)**       All secrets retrieved from Azure Key Vault; zero
+      hardcoded credentials; `parameter.yml` contains names only, not values.
+- [ ] **P-III (Data Quality)** Schema validation + null checks specified for every
+      ingestion notebook; `_rejected` quarantine partition defined in data model.
+- [ ] **P-VII (Observability)**Structured logging, audit-log writes to `audit_log`
+      Delta table, and `dq_results` persistence planned for all notebooks.
+
+**Architecture gates — verify at Phase 1 design review:**
+
+- [ ] Delta Lake format confirmed for all durable storage (Principle IV).
+- [ ] Bronze–Silver–Gold layer assignments documented in `data-model.md`.
+- [ ] Modular notebook decomposition (`ingest_`, `transform_`, `report_`) shown in
+      project structure (Principle V).
+- [ ] Exponential backoff / retry bounds specified for all API-connected notebooks;
+      rate-limit thresholds declared in `parameter.yml` (Principle VI).
+- [ ] `parameter.yml` per environment (`dev/`, `prod/`) defined; no environment
+      name string literals hardcoded in notebook logic (Principle VIII).
+- [ ] Fabric Data Pipeline used for orchestration; no Python schedulers (P VIII).
+- [ ] GitHub Actions CI/CD pipeline planned: lint → secret-scan → validate →
+      deploy → smoke-test; no manual production deployments (Principle VIII).
 
 ## Project Structure
 
