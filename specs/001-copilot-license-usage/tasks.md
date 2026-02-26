@@ -28,11 +28,11 @@
 
 **Purpose**: Create the repository directory structure and Fabric item metadata files
 
-- [ ] T001 Create workspace directory structure with all item folders: `workspace/00_watermarks.Notebook/`, `workspace/01_ingest_users.Notebook/`, `workspace/02_ingest_usage.Notebook/`, `workspace/03_ingest_audit_logs.Notebook/`, `workspace/04_transform_silver.Notebook/`, `workspace/05_transform_gold.Notebook/`, `workspace/06_compute_scores.Notebook/`, `workspace/99_dq_checks.Notebook/`, `workspace/helpers.Notebook/`, `workspace/CopilotUsagePipeline.DataPipeline/`, `workspace/CopilotUsageLakehouse.Lakehouse/`, `workspace/CopilotUsageEnv.Environment/`
-- [ ] T002 [P] Create Lakehouse platform metadata in `workspace/CopilotUsageLakehouse.Lakehouse/.platform`
-- [ ] T003 [P] Create Environment configuration with Python dependencies (`msgraph-sdk`, `msgraph-beta-sdk`, `azure-identity`) in `workspace/CopilotUsageEnv.Environment/Setting.yml`
-- [ ] T004 [P] Create Spark pool configuration in `workspace/CopilotUsageEnv.Environment/Sparkcompute.yml`
-- [ ] T005 [P] Create `workspace/parameter.yml` with `find_replace` entries for Lakehouse GUIDs, workspace IDs, Key Vault URLs, and `key_value_replace` for pipeline notebook references and schedule enable/disable per environment (DEV/PROD) — Principle II & VIII
+- [X] T001 Create workspace directory structure with all item folders: `workspace/00_watermarks.Notebook/`, `workspace/01_ingest_users.Notebook/`, `workspace/02_ingest_usage.Notebook/`, `workspace/03_ingest_audit_logs.Notebook/`, `workspace/04_transform_silver.Notebook/`, `workspace/05_transform_gold.Notebook/`, `workspace/06_compute_scores.Notebook/`, `workspace/99_dq_checks.Notebook/`, `workspace/helpers.Notebook/`, `workspace/CopilotUsagePipeline.DataPipeline/`, `workspace/CopilotUsageLakehouse.Lakehouse/`, `workspace/CopilotUsageEnv.Environment/`
+- [X] T002 [P] Create Lakehouse platform metadata in `workspace/CopilotUsageLakehouse.Lakehouse/.platform`
+- [X] T003 [P] Create Environment configuration with Python dependencies (`msgraph-sdk`, `msgraph-beta-sdk`, `azure-identity`) in `workspace/CopilotUsageEnv.Environment/Setting.yml`
+- [X] T004 [P] Create Spark pool configuration in `workspace/CopilotUsageEnv.Environment/Sparkcompute.yml`
+- [X] T005 [P] Create `workspace/parameter.yml` with `find_replace` entries for Lakehouse GUIDs, workspace IDs, Key Vault URLs, and `key_value_replace` for pipeline notebook references and schedule enable/disable per environment (DEV/PROD) — Principle II & VIII
 
 ---
 
@@ -42,14 +42,14 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T006 Implement Service Principal authentication helper (`get_graph_client`, `get_beta_graph_client`) using `ClientSecretCredential` with Key Vault secret retrieval via `notebookutils.credentials.getSecret()` in `workspace/helpers.Notebook/notebook-content.py` — Principle I & II
-- [ ] T007 Implement exponential backoff retry utility (`retry_with_backoff`) with full jitter (base 1s, max 60s, max 5 retries) and 4xx fast-fail (except 429) in `workspace/helpers.Notebook/notebook-content.py` — Principle VI
-- [ ] T008 Implement structured audit logging utility (`write_audit_entry`) writing to `gold_copilot_audit_log` Delta table with run_id, timestamp, notebook_name, operation, target, status, records_affected, duration_ms, error_message, http_status_code fields in `workspace/helpers.Notebook/notebook-content.py` — Principle VII
-- [ ] T009 Implement data quality check utility (`write_dq_result`) writing to `gold_copilot_dq_results` Delta table with check_id, run_id, check_date, table_name, check_name, check_result, metric_value, threshold, details fields in `workspace/helpers.Notebook/notebook-content.py` — Principle VII
-- [ ] T010 Implement schema validation utility (`validate_schema`, `quarantine_rejected`) for type checking, null checks on required fields, and rejection to `_rejected` partition tables with structured error metadata in `workspace/helpers.Notebook/notebook-content.py` — Principle III (FR-012)
-- [ ] T011 Implement Graph API pagination helper (`paginate_graph_response`) to follow `odata_next_link` until exhausted, collecting all pages into a single list in `workspace/helpers.Notebook/notebook-content.py`
-- [ ] T012 Implement shared run_id generation and parameter loading (`load_parameters`, `generate_run_id`) reading from `parameter.yml` in `workspace/helpers.Notebook/notebook-content.py`
-- [ ] T013 Implement watermark management notebook with `read_watermark(source_name)` and `write_watermark(source_name, value, run_id, records_processed)` functions operating on `sys_watermarks` Delta table in `workspace/00_watermarks.Notebook/notebook-content.py`
+- [X] T006 Implement Service Principal authentication helper (`get_graph_client`, `get_beta_graph_client`) using `ClientSecretCredential` with Key Vault secret retrieval via `notebookutils.credentials.getSecret()` in `workspace/helpers.Notebook/notebook-content.py` — Principle I & II
+- [X] T007 Implement exponential backoff retry utility (`retry_with_backoff`) with full jitter (base 1s, max 60s, max 5 retries) and 4xx fast-fail (except 429) in `workspace/helpers.Notebook/notebook-content.py` — Principle VI
+- [X] T008 Implement structured audit logging utility (`write_audit_entry`) writing to `gold_copilot_audit_log` Delta table with run_id, timestamp, notebook_name, operation, target, status, records_affected, duration_ms, error_message, http_status_code fields in `workspace/helpers.Notebook/notebook-content.py` — Principle VII
+- [X] T009 Implement data quality check utility (`write_dq_result`) writing to `gold_copilot_dq_results` Delta table with check_id, run_id, check_date, table_name, check_name, check_result, metric_value, threshold, details fields in `workspace/helpers.Notebook/notebook-content.py` — Principle VII
+- [X] T010 Implement schema validation utility (`validate_schema`, `quarantine_rejected`) for type checking, null checks on required fields, and rejection to `_rejected` partition tables with structured error metadata in `workspace/helpers.Notebook/notebook-content.py` — Principle III (FR-012)
+- [X] T011 Implement Graph API pagination helper (`paginate_graph_response`) to follow `odata_next_link` until exhausted, collecting all pages into a single list in `workspace/helpers.Notebook/notebook-content.py`
+- [X] T012 Implement shared run_id generation and parameter loading (`load_parameters`, `generate_run_id`) reading from `parameter.yml` in `workspace/helpers.Notebook/notebook-content.py`
+- [X] T013 Implement watermark management notebook with `read_watermark(source_name)` and `write_watermark(source_name, value, run_id, records_processed)` functions operating on `sys_watermarks` Delta table in `workspace/00_watermarks.Notebook/notebook-content.py`
 
 **Checkpoint**: Foundation ready — Service Principal auth, Key Vault integration, audit/DQ tables, retry utility, schema validation, pagination helper, watermark management, and parameter loading in place. User story work can begin.
 
@@ -63,11 +63,11 @@
 
 ### Implementation for User Story 1
 
-- [ ] T014 [US1] Implement Bronze ingestion in `workspace/01_ingest_users.Notebook/notebook-content.py`: authenticate via helpers, call `GET /v1.0/users?$select=...&$expand=licenseDetails&$top=999` using `msgraph-sdk`, handle pagination, support delta queries (`deltaLink` watermark from `sys_watermarks`), write raw JSON per user to `bronze_graph_users` partitioned by `ingestion_date`, update watermark, write audit log entries per contract `contracts/graph-users.md`
-- [ ] T015 [US1] Implement Silver user transform in `workspace/04_transform_silver.Notebook/notebook-content.py`: read latest `bronze_graph_users` partition, parse `raw_json`, validate schema (required: `user_id`, `user_principal_name`, `display_name`, `account_enabled`), quarantine invalid records to `silver_users_rejected`, Delta MERGE into `silver_users` on `user_id`, derive `is_departed` from `account_enabled` (FR-014)
-- [ ] T016 [US1] Implement Silver license transform in `workspace/04_transform_silver.Notebook/notebook-content.py`: extract `licenseDetails` from parsed Bronze data, identify Copilot SKU (`MICROSOFT_365_COPILOT` case-insensitive), Delta MERGE into `silver_user_licenses` on `user_id`, track `license_assignment_date` (retain earliest), set `license_removal_date` when Copilot SKU disappears
-- [ ] T017 [US1] Implement Gold license summary dimension in `workspace/05_transform_gold.Notebook/notebook-content.py`: join `silver_users` + `silver_user_licenses`, compute `account_status` (active/departed), `license_days_held`, `is_new_assignment` (< 14 days, FR-010), Delta MERGE into `gold_copilot_license_summary` on `user_id`
-- [ ] T018 [US1] Implement user/license data quality checks in `workspace/99_dq_checks.Notebook/notebook-content.py`: row count check on `silver_users`, null percentage check on required fields (`user_id`, `display_name`), freshness check comparing `max(_ingestion_date)` against current date (FR-013), write all results to `sys_dq_results`
+- [X] T014 [US1] Implement Bronze ingestion in `workspace/01_ingest_users.Notebook/notebook-content.py`: authenticate via helpers, call `GET /v1.0/users?$select=...&$expand=licenseDetails&$top=999` using `msgraph-sdk`, handle pagination, support delta queries (`deltaLink` watermark from `sys_watermarks`), write raw JSON per user to `bronze_graph_users` partitioned by `ingestion_date`, update watermark, write audit log entries per contract `contracts/graph-users.md`
+- [X] T015 [US1] Implement Silver user transform in `workspace/04_transform_silver.Notebook/notebook-content.py`: read latest `bronze_graph_users` partition, parse `raw_json`, validate schema (required: `user_id`, `user_principal_name`, `display_name`, `account_enabled`), quarantine invalid records to `silver_users_rejected`, Delta MERGE into `silver_users` on `user_id`, derive `is_departed` from `account_enabled` (FR-014)
+- [X] T016 [US1] Implement Silver license transform in `workspace/04_transform_silver.Notebook/notebook-content.py`: extract `licenseDetails` from parsed Bronze data, identify Copilot SKU (`MICROSOFT_365_COPILOT` case-insensitive), Delta MERGE into `silver_user_licenses` on `user_id`, track `license_assignment_date` (retain earliest), set `license_removal_date` when Copilot SKU disappears
+- [X] T017 [US1] Implement Gold license summary dimension in `workspace/05_transform_gold.Notebook/notebook-content.py`: join `silver_users` + `silver_user_licenses`, compute `account_status` (active/departed), `license_days_held`, `is_new_assignment` (< 14 days, FR-010), Delta MERGE into `gold_copilot_license_summary` on `user_id`
+- [X] T018 [US1] Implement user/license data quality checks in `workspace/99_dq_checks.Notebook/notebook-content.py`: row count check on `silver_users`, null percentage check on required fields (`user_id`, `display_name`), freshness check comparing `max(_ingestion_date)` against current date (FR-013), write all results to `sys_dq_results`
 
 **Checkpoint**: User Story 1 complete — all org users with Copilot license status queryable in `gold_copilot_license_summary`, filterable by department, with DQ validation and audit logging
 

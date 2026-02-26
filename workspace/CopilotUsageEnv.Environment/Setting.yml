@@ -1,0 +1,11 @@
+# Public PyPI library dependencies for CopilotUsageEnv Fabric Environment
+# Installed via Fabric Environment staging/libraries API on publish
+# fabric-cicd uploads this file as part of the Environment item definition
+
+public_libraries:
+  - name: msgraph-sdk
+    version: "1.55.0"
+  - name: msgraph-beta-sdk
+    version: "1.56.0"
+  - name: azure-identity
+    version: ">=1.19.0"

@@ -1,0 +1,21 @@
+# Spark pool configuration for CopilotUsageEnv Fabric Environment
+# Fabric Runtime 1.3 (Spark 3.4 / Python 3.11)
+# fabric-cicd reads this file via _update_compute_settings and PATCHes
+# /environments/{id}/staging/sparkcompute
+
+runtime_version: "1.3"
+
+driver_cores: 4
+driver_memory: 28g
+
+executor_cores: 4
+executor_memory: 28g
+
+dynamic_executor_allocation:
+  enabled: true
+  min_executors: 1
+  max_executors: 4
+
+spark_conf:
+  spark.sql.extensions: io.delta.sql.DeltaSparkSessionExtension
+  spark.sql.catalog.spark_catalog: org.apache.spark.sql.delta.catalog.DeltaCatalog
