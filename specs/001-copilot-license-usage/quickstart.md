@@ -9,9 +9,9 @@ This guide provisions the entire Fabric workspace from the CLI. No Fabric UI int
 
 - Python 3.11+
 - Azure AD Service Principal with:
-  - **Graph API permissions** (application): `User.Read.All`, `Reports.Read.All`, `AuditLog.Read.All`
+  - **Graph API permissions** (application): `User.Read.All`, `Reports.Read.All`, `AuditLogsQuery.Read.All`
   - **Fabric workspace role**: Admin or Member on target workspace
-- Azure Key Vault with secrets: `graph-client-id`, `graph-client-secret`, `graph-tenant-id`
+- Azure Key Vault with secrets: `sp-client-id`, `sp-client-secret`, `sp-tenant-id`
 - Git repository cloned locally with the `workspace/` directory
 
 ## 1. Install CLI Tools

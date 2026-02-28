@@ -1,0 +1,10 @@
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+include = ["workspace/**/*.py"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["fabric_cicd", "fabric_cli"]

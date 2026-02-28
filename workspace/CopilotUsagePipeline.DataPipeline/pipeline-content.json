@@ -1,0 +1,208 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "name": "00_watermarks",
+        "type": "TridentNotebook",
+        "dependsOn": [],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 30,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "typeProperties": {
+          "notebookId": "00_watermarks",
+          "workspaceId": null
+        }
+      },
+      {
+        "name": "01_ingest_users",
+        "type": "TridentNotebook",
+        "dependsOn": [
+          {
+            "activity": "00_watermarks",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 30,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "typeProperties": {
+          "notebookId": "01_ingest_users",
+          "workspaceId": null
+        }
+      },
+      {
+        "name": "02_ingest_usage",
+        "type": "TridentNotebook",
+        "dependsOn": [
+          {
+            "activity": "00_watermarks",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 30,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "typeProperties": {
+          "notebookId": "02_ingest_usage",
+          "workspaceId": null
+        }
+      },
+      {
+        "name": "03_ingest_audit_logs",
+        "type": "TridentNotebook",
+        "dependsOn": [
+          {
+            "activity": "00_watermarks",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 30,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "typeProperties": {
+          "notebookId": "03_ingest_audit_logs",
+          "workspaceId": null
+        }
+      },
+      {
+        "name": "04_transform_silver",
+        "type": "TridentNotebook",
+        "dependsOn": [
+          {
+            "activity": "01_ingest_users",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "02_ingest_usage",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "03_ingest_audit_logs",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 30,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "typeProperties": {
+          "notebookId": "04_transform_silver",
+          "workspaceId": null
+        }
+      },
+      {
+        "name": "05_transform_gold",
+        "type": "TridentNotebook",
+        "dependsOn": [
+          {
+            "activity": "06_compute_scores",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 30,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "typeProperties": {
+          "notebookId": "05_transform_gold",
+          "workspaceId": null
+        }
+      },
+      {
+        "name": "06_compute_scores",
+        "type": "TridentNotebook",
+        "dependsOn": [
+          {
+            "activity": "04_transform_silver",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 30,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "typeProperties": {
+          "notebookId": "06_compute_scores",
+          "workspaceId": null
+        }
+      },
+      {
+        "name": "99_dq_checks",
+        "type": "TridentNotebook",
+        "dependsOn": [
+          {
+            "activity": "05_transform_gold",
+            "dependencyConditions": [
+              "Completed"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "typeProperties": {
+          "notebookId": "99_dq_checks",
+          "workspaceId": null
+        }
+      }
+    ]
+  },
+  "schedules": [
+    {
+      "id": "daily-6am-utc",
+      "jobType": "Execute",
+      "enabled": false,
+      "recurrence": {
+        "frequency": "Day",
+        "interval": 1,
+        "startTime": "06:00",
+        "timeZone": "UTC"
+      }
+    }
+  ]
+}

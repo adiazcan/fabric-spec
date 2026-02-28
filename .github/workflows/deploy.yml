@@ -1,0 +1,72 @@
+name: Deploy to Fabric
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+env:
+  PYTHON_VERSION: "3.11"
+
+jobs:
+  lint:
+    name: Lint & Secret Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install linting tools
+        run: pip install ruff
+
+      - name: Ruff check
+        run: ruff check workspace/
+
+      - name: Gitleaks secret scan
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy:
+    name: Deploy & Smoke Test
+    needs: lint
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install deployment tools
+        run: pip install fabric-cicd ms-fabric-cli
+
+      - name: Authenticate Fabric CLI
+        run: fab auth login -u "$CLIENT_ID" -p "$CLIENT_SECRET" --tenant "$TENANT_ID"
+        env:
+          CLIENT_ID: ${{ secrets.FABRIC_CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.FABRIC_CLIENT_SECRET }}
+          TENANT_ID: ${{ secrets.FABRIC_TENANT_ID }}
+
+      - name: Publish all workspace items
+        run: |
+          python -c "
+          from fabric_cicd import FabricWorkspace
+
+          ws = FabricWorkspace(
+              workspace_id='${{ secrets.FABRIC_WORKSPACE_ID }}',
+              environment='PROD',
+              repository_directory='./workspace',
+              item_type_in_scope=['Notebook', 'DataPipeline', 'Environment', 'Lakehouse'],
+          )
+          ws.publish_all_items()
+          "
+
+      - name: Smoke test – trigger pipeline
+        run: fab run "${{ secrets.FABRIC_WORKSPACE_NAME }}/CopilotUsagePipeline.DataPipeline"
