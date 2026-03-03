@@ -13,12 +13,18 @@
 # META     "lakehouse": {
 # META       "default_lakehouse": "00000000-0000-0000-0000-000000000000",
 # META       "default_lakehouse_name": "CopilotUsageLakehouse",
-# META       "default_lakehouse_workspace_id": "11111111-1111-1111-1111-111111111111"
+# META       "default_lakehouse_workspace_id": "11111111-1111-1111-1111-111111111111",
+# META       "known_lakehouses": [
+# META         {
+# META           "id": "00000000-0000-0000-0000-000000000000"
+# META         }
+# META       ]
 # META     }
 # META   }
 # META }
 
 # CELL ********************
+
 # 01_ingest_users — Bronze layer ingestion: user profiles + Copilot license details
 #
 # FR-001: Ingest all user accounts with their Copilot license assignment status
@@ -32,9 +38,34 @@
 # Bronze table:  bronze_graph_users (partitioned by ingestion_date)
 # Watermark:    sys_watermarks WHERE source_name = 'graph_users' (deltaLink URL)
 
-# noqa: E402
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
 %run helpers
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
 %run 00_watermarks
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
 
 # CELL ********************
 
@@ -72,6 +103,13 @@ _BRONZE_SCHEMA = StructType(
         StructField("raw_json", StringType(), False),
     ]
 )
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
 
 # CELL ********************
 
@@ -232,8 +270,15 @@ async def _ingest(spark: SparkSession, run_id: str) -> Tuple[int, Optional[str]]
 
     return len(rows), new_delta_link
 
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
 
 # CELL ********************
+
 # Main execution
 
 spark = SparkSession.builder.getOrCreate()
@@ -267,3 +312,11 @@ except Exception as e:
         error_message=str(e),
     )
     raise
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+

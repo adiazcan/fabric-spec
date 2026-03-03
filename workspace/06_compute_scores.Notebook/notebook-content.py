@@ -13,12 +13,18 @@
 # META     "lakehouse": {
 # META       "default_lakehouse": "00000000-0000-0000-0000-000000000000",
 # META       "default_lakehouse_name": "CopilotUsageLakehouse",
-# META       "default_lakehouse_workspace_id": "11111111-1111-1111-1111-111111111111"
+# META       "default_lakehouse_workspace_id": "11111111-1111-1111-1111-111111111111",
+# META       "known_lakehouses": [
+# META         {
+# META           "id": "00000000-0000-0000-0000-000000000000"
+# META         }
+# META       ]
 # META     }
 # META   }
 # META }
 
 # CELL ********************
+
 # 06_compute_scores — Recency-weighted usage score computation (US3)
 #
 # [US3/T023] Compute per-user usage scores (0–100) with three weighted components:
@@ -35,6 +41,13 @@
 
 # noqa: E402
 %run helpers
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
 
 # CELL ********************
 
@@ -76,7 +89,15 @@ RECENCY_WEIGHT = 0.50
 FREQUENCY_WEIGHT = 0.30
 BREADTH_WEIGHT = 0.20
 
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
 # CELL ********************
+
 # ─────────────────────────────────────────────────────────────────────────────
 # Prerequisite checks
 # ─────────────────────────────────────────────────────────────────────────────
@@ -92,7 +113,15 @@ if not spark.catalog.tableExists("silver_user_licenses"):
         "Run 04_transform_silver (US1/T016) first."
     )
 
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
 # CELL ********************
+
 # ─────────────────────────────────────────────────────────────────────────────
 # [US3/T023] Score computation
 # ─────────────────────────────────────────────────────────────────────────────
@@ -273,7 +302,15 @@ final_df = scored_df.select(
     F.lit(run_id).alias("_run_id"),
 )
 
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
 # CELL ********************
+
 # ─────────────────────────────────────────────────────────────────────────────
 # Write to gold_copilot_usage_scores (insert-only — one row per user per day)
 # ─────────────────────────────────────────────────────────────────────────────
@@ -312,3 +349,11 @@ print(
     f"[{NOTEBOOK_NAME}] {SCORES_TABLE}: inserted {score_count:,} score rows "
     f"for {F.current_date()} | Run ID: {run_id}"
 )
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+

@@ -13,12 +13,18 @@
 # META     "lakehouse": {
 # META       "default_lakehouse": "00000000-0000-0000-0000-000000000000",
 # META       "default_lakehouse_name": "CopilotUsageLakehouse",
-# META       "default_lakehouse_workspace_id": "11111111-1111-1111-1111-111111111111"
+# META       "default_lakehouse_workspace_id": "11111111-1111-1111-1111-111111111111",
+# META       "known_lakehouses": [
+# META         {
+# META           "id": "00000000-0000-0000-0000-000000000000"
+# META         }
+# META       ]
 # META     }
 # META   }
 # META }
 
 # CELL ********************
+
 # 03_ingest_audit_logs — Bronze layer ingestion: Copilot audit logs
 #
 # FR-004: Ingest Copilot audit events from Purview Audit Search API (beta)
@@ -37,9 +43,34 @@
 # Watermark:     sys_watermarks WHERE source_name = 'graph_audit'
 #                (filterStartDateTime ISO datetime string)
 
-# noqa: E402
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
 %run helpers
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
 %run 00_watermarks
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
 
 # CELL ********************
 
@@ -72,6 +103,13 @@ _BRONZE_SCHEMA = StructType(
         StructField("raw_json", StringType(), False),
     ]
 )
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
 
 # CELL ********************
 
@@ -114,6 +152,12 @@ def _serialize_audit_record(record) -> dict:
         "auditData": audit_data_serialized,
     }
 
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
 
 # CELL ********************
 
@@ -211,6 +255,12 @@ async def _retrieve_all_records(client, query_id: str) -> List:
 
     return all_records
 
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
 
 # CELL ********************
 
@@ -366,8 +416,15 @@ async def _ingest(spark: SparkSession, run_id: str) -> Tuple[int, Optional[str]]
 
     return len(rows), filter_end_iso
 
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
 
 # CELL ********************
+
 # Main execution
 
 spark = SparkSession.builder.getOrCreate()
@@ -403,3 +460,11 @@ except Exception as e:
         error_message=str(e),
     )
     raise
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+

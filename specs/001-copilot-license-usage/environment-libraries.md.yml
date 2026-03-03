@@ -9,3 +9,5 @@ public_libraries:
     version: "1.56.0"
   - name: azure-identity
     version: ">=1.19.0"
+  - name: nest-asyncio
+    version: ">=1.6.0"

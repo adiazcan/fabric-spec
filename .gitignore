@@ -10,6 +10,9 @@
 *.userosscache
 *.sln.docstates
 *.env
+__pycache__/
+.vscode/
+.idea/
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -423,3 +426,15 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# Cross-platform/system artifacts
+.DS_Store
+Thumbs.db
+*.swp
+
+# Python/package build artifacts
+dist/
+build/
+
+# Environment files
+.env*

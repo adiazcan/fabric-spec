@@ -13,12 +13,18 @@
 # META     "lakehouse": {
 # META       "default_lakehouse": "00000000-0000-0000-0000-000000000000",
 # META       "default_lakehouse_name": "CopilotUsageLakehouse",
-# META       "default_lakehouse_workspace_id": "11111111-1111-1111-1111-111111111111"
+# META       "default_lakehouse_workspace_id": "11111111-1111-1111-1111-111111111111",
+# META       "known_lakehouses": [
+# META         {
+# META           "id": "00000000-0000-0000-0000-000000000000"
+# META         }
+# META       ]
 # META     }
 # META   }
 # META }
 
 # CELL ********************
+
 # 99_dq_checks — Data quality validation for all pipeline tables
 #
 # [US1/T018] User + license DQ checks (this phase)
@@ -35,6 +41,13 @@
 # noqa: E402
 %run helpers
 
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
 # CELL ********************
 
 from datetime import date, datetime, timezone
@@ -48,7 +61,15 @@ FRESHNESS_THRESHOLD_HOURS = 48  # FR-013: Bronze tables must not exceed 48 h sta
 spark = SparkSession.builder.getOrCreate()
 run_id = generate_run_id()
 
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
 # CELL ********************
+
 # ─────────────────────────────────────────────────────────────────────────────
 # [US1/T018] DQ checks: silver_users
 # ─────────────────────────────────────────────────────────────────────────────
@@ -153,7 +174,15 @@ else:
         f"freshness={hours_stale}h"
     )
 
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
 # CELL ********************
+
 # ─────────────────────────────────────────────────────────────────────────────
 # [US1/T018] DQ checks: silver_user_licenses
 # ─────────────────────────────────────────────────────────────────────────────
@@ -233,7 +262,15 @@ else:
         f"copilot_users={licenses_df.filter(F.col('has_copilot_license') == True).count():,}"  # noqa: E712
     )
 
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
 # CELL ********************
+
 # ─────────────────────────────────────────────────────────────────────────────
 # [US2/T022] DQ checks: silver_copilot_usage
 # ─────────────────────────────────────────────────────────────────────────────
@@ -314,7 +351,15 @@ else:
         f"freshness={usage_hours_stale}h"
     )
 
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
 # CELL ********************
+
 # ─────────────────────────────────────────────────────────────────────────────
 # [US3/T025] DQ checks: gold_copilot_usage_scores
 # ─────────────────────────────────────────────────────────────────────────────
@@ -428,7 +473,15 @@ else:
         f"flag_violations={flag_violations:,}"
     )
 
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
 # CELL ********************
+
 # ─────────────────────────────────────────────────────────────────────────────
 # [US4/T029] DQ checks: silver_audit_events
 # ─────────────────────────────────────────────────────────────────────────────
@@ -533,6 +586,13 @@ else:
         f"freshness={audit_hours_stale}h"
     )
 
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
 # CELL ********************
 
 write_audit_entry(
@@ -544,3 +604,11 @@ write_audit_entry(
     status="SUCCESS",
 )
 print(f"[{NOTEBOOK_NAME}] All DQ checks complete | Run ID: {run_id}")
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+

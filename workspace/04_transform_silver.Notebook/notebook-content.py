@@ -13,12 +13,18 @@
 # META     "lakehouse": {
 # META       "default_lakehouse": "00000000-0000-0000-0000-000000000000",
 # META       "default_lakehouse_name": "CopilotUsageLakehouse",
-# META       "default_lakehouse_workspace_id": "11111111-1111-1111-1111-111111111111"
+# META       "default_lakehouse_workspace_id": "11111111-1111-1111-1111-111111111111",
+# META       "known_lakehouses": [
+# META         {
+# META           "id": "00000000-0000-0000-0000-000000000000"
+# META         }
+# META       ]
 # META     }
 # META   }
 # META }
 
 # CELL ********************
+
 # 04_transform_silver — Silver layer transformations
 #
 # [US1/T015] User transform:    validate + Delta MERGE bronze_graph_users → silver_users
@@ -32,6 +38,13 @@
 
 # noqa: E402
 %run helpers
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
 
 # CELL ********************
 
@@ -80,7 +93,15 @@ _USER_JSON_SCHEMA = StructType(
     ]
 )
 
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
 # CELL ********************
+
 # ─────────────────────────────────────────────────────────────────────────────
 # [US5/T032] Data freshness gate (FR-013)
 #
@@ -149,7 +170,15 @@ for _btable in _BRONZE_TABLES:
             f"(threshold={_FRESHNESS_HOURS}h) — proceeding with available data"
         )
 
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
 # CELL ********************
+
 # ─────────────────────────────────────────────────────────────────────────────
 # [US1/T015 + T016] Read latest Bronze partition
 # ─────────────────────────────────────────────────────────────────────────────
@@ -190,7 +219,15 @@ parsed_df = bronze_df.withColumn(
     F.from_json(F.col("raw_json"), _USER_JSON_SCHEMA),
 )
 
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
 # CELL ********************
+
 # ─────────────────────────────────────────────────────────────────────────────
 # [US1/T015] Silver user transform: validate + MERGE → silver_users
 # ─────────────────────────────────────────────────────────────────────────────
@@ -262,7 +299,15 @@ print(
     f"(rejected: {len(users_rejected)})"
 )
 
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
 # CELL ********************
+
 # ─────────────────────────────────────────────────────────────────────────────
 # [US1/T016] Silver license transform: extract licenseDetails → silver_user_licenses
 #
@@ -387,7 +432,15 @@ write_audit_entry(
 )
 print(f"[{NOTEBOOK_NAME}] silver_user_licenses: merged {lic_count:,} rows")
 
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
 # CELL ********************
+
 # ─────────────────────────────────────────────────────────────────────────────
 # [US2/T020] Silver usage transform: validate + MERGE → silver_copilot_usage
 #
@@ -548,7 +601,15 @@ print(
     f"(rejected: {len(usage_rejected)})"
 )
 
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
 # CELL ********************
+
 # ─────────────────────────────────────────────────────────────────────────────
 # [US4/T027] Silver audit transform: validate + MERGE → silver_audit_events
 #
@@ -688,3 +749,11 @@ print(
     f"[{NOTEBOOK_NAME}] silver_audit_events: merged {audit_count:,} rows "
     f"(rejected: {len(audit_rejected)})"
 )
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+

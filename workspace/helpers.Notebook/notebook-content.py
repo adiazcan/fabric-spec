@@ -13,12 +13,30 @@
 # META     "lakehouse": {
 # META       "default_lakehouse": "00000000-0000-0000-0000-000000000000",
 # META       "default_lakehouse_name": "CopilotUsageLakehouse",
-# META       "default_lakehouse_workspace_id": "11111111-1111-1111-1111-111111111111"
+# META       "default_lakehouse_workspace_id": "11111111-1111-1111-1111-111111111111",
+# META       "known_lakehouses": [
+# META         {
+# META           "id": "00000000-0000-0000-0000-000000000000"
+# META         }
+# META       ]
 # META     }
 # META   }
 # META }
 
 # CELL ********************
+
+# Install required Python packages (idempotent — no-op when already present in the environment)
+%pip install msgraph-sdk==1.55.0 msgraph-beta-sdk==1.56.0 azure-identity>=1.19.0 --quiet
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
 # helpers — Shared utilities for all CopilotUsage notebooks
 #
 # Principle I:   Service Principal authentication only (no interactive credentials)
@@ -51,7 +69,15 @@ from pyspark.sql.types import (
 # Key Vault URL — substituted per environment by fabric-cicd find_replace (Principle II)
 KV_URL = "https://kv-copilot-dev.vault.azure.net"
 
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
 # CELL ********************
+
 # ─────────────────────────────────────────────────────────────────────────────
 # T006 — Service Principal Authentication Helpers (Principle I & II)
 # ─────────────────────────────────────────────────────────────────────────────
@@ -94,8 +120,15 @@ def get_beta_graph_client() -> BetaGraphServiceClient:
         scopes=["https://graph.microsoft.com/.default"],
     )
 
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
 
 # CELL ********************
+
 # ─────────────────────────────────────────────────────────────────────────────
 # T007 — Exponential Backoff Retry Utility (Principle VI)
 # ─────────────────────────────────────────────────────────────────────────────
@@ -136,8 +169,15 @@ async def retry_with_backoff(
 
     raise last_exc  # unreachable; satisfies type checkers
 
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
 
 # CELL ********************
+
 # ─────────────────────────────────────────────────────────────────────────────
 # T008 — Structured Audit Logging (Principle VII)
 # ─────────────────────────────────────────────────────────────────────────────
@@ -198,8 +238,15 @@ def write_audit_entry(
         .saveAsTable("gold_copilot_audit_log")
     )
 
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
 
 # CELL ********************
+
 # ─────────────────────────────────────────────────────────────────────────────
 # T009 — Data Quality Result Writer (Principle VII)
 # ─────────────────────────────────────────────────────────────────────────────
@@ -253,8 +300,15 @@ def write_dq_result(
         .saveAsTable("gold_copilot_dq_results")
     )
 
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
 
 # CELL ********************
+
 # ─────────────────────────────────────────────────────────────────────────────
 # T010 — Schema Validation & Rejected Record Quarantine (Principle III, FR-012)
 # ─────────────────────────────────────────────────────────────────────────────
@@ -383,8 +437,15 @@ def quarantine_rejected(
         .saveAsTable(quarantine_table)
     )
 
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
 
 # CELL ********************
+
 # ─────────────────────────────────────────────────────────────────────────────
 # T011 — Graph API Pagination Helper
 # ─────────────────────────────────────────────────────────────────────────────
@@ -422,8 +483,15 @@ async def paginate_graph_response(
 
     return all_items
 
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
 
 # CELL ********************
+
 # ─────────────────────────────────────────────────────────────────────────────
 # T012 — Run ID Generation & Parameter Loading
 # ─────────────────────────────────────────────────────────────────────────────
@@ -467,3 +535,11 @@ def load_parameters() -> Dict[str, Any]:
         "api_base_delay_s": 1.0,
         "api_max_delay_s": 60.0,
     }
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+

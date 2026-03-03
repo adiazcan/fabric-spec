@@ -13,12 +13,18 @@
 # META     "lakehouse": {
 # META       "default_lakehouse": "00000000-0000-0000-0000-000000000000",
 # META       "default_lakehouse_name": "CopilotUsageLakehouse",
-# META       "default_lakehouse_workspace_id": "11111111-1111-1111-1111-111111111111"
+# META       "default_lakehouse_workspace_id": "11111111-1111-1111-1111-111111111111",
+# META       "known_lakehouses": [
+# META         {
+# META           "id": "00000000-0000-0000-0000-000000000000"
+# META         }
+# META       ]
 # META     }
 # META   }
 # META }
 
 # CELL ********************
+
 # 05_transform_gold — Gold layer transformations
 #
 # [US1/T017] License summary: join silver_users + silver_user_licenses
@@ -36,6 +42,13 @@
 # noqa: E402
 %run helpers
 
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
 # CELL ********************
 
 from datetime import datetime, timezone
@@ -52,7 +65,15 @@ run_id = generate_run_id()
 params = load_parameters()
 NEW_ASSIGNMENT_GRACE_DAYS: int = params["new_assignment_grace_days"]  # default 14
 
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
 # CELL ********************
+
 # ─────────────────────────────────────────────────────────────────────────────
 # [US1/T017] Gold license summary: join silver_users + silver_user_licenses
 #            → gold_copilot_license_summary
@@ -168,7 +189,15 @@ print(
     f"[{NOTEBOOK_NAME}] {GOLD_LICENSE_TABLE}: merged {gold_count:,} rows | Run ID: {run_id}"
 )
 
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
 # CELL ********************
+
 # ─────────────────────────────────────────────────────────────────────────────
 # [US2/T021] Gold usage enrichment: enrich gold_copilot_license_summary
 #            with last_activity_date, days_since_last_activity, apps_used_count
@@ -287,7 +316,15 @@ print(
     f"updated {usage_enrich_count:,} rows | Run ID: {run_id}"
 )
 
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
 # CELL ********************
+
 # ─────────────────────────────────────────────────────────────────────────────
 # [US3/T024] Gold score enrichment: enrich gold_copilot_license_summary
 #            with latest_usage_score and is_underutilized from
@@ -358,7 +395,15 @@ else:
         f"updated {score_enrich_count:,} rows | Run ID: {run_id}"
     )
 
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
 # CELL ********************
+
 # ─────────────────────────────────────────────────────────────────────────────
 # [US4/T028] Gold audit summary: aggregate silver_audit_events
 #            → Delta MERGE into gold_copilot_audit_summary
@@ -454,3 +499,11 @@ else:
         f"[{NOTEBOOK_NAME}] {AUDIT_SUMMARY_TABLE}: merged {audit_summary_count:,} rows "
         f"| Run ID: {run_id}"
     )
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+

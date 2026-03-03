@@ -13,12 +13,18 @@
 # META     "lakehouse": {
 # META       "default_lakehouse": "00000000-0000-0000-0000-000000000000",
 # META       "default_lakehouse_name": "CopilotUsageLakehouse",
-# META       "default_lakehouse_workspace_id": "11111111-1111-1111-1111-111111111111"
+# META       "default_lakehouse_workspace_id": "11111111-1111-1111-1111-111111111111",
+# META       "known_lakehouses": [
+# META         {
+# META           "id": "00000000-0000-0000-0000-000000000000"
+# META         }
+# META       ]
 # META     }
 # META   }
 # META }
 
 # CELL ********************
+
 # 00_watermarks — Incremental loading watermark management
 #
 # Provides read_watermark() and write_watermark() operating on the sys_watermarks
@@ -44,7 +50,15 @@ from pyspark.sql.types import (
     TimestampType,
 )
 
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
 # CELL ********************
+
 # ─────────────────────────────────────────────────────────────────────────────
 # T013 — sys_watermarks Table Schema
 # ─────────────────────────────────────────────────────────────────────────────
@@ -71,8 +85,15 @@ def _ensure_watermarks_table(spark: SparkSession) -> None:
             .saveAsTable(_WATERMARKS_TABLE)
         )
 
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
 
 # CELL ********************
+
 # ─────────────────────────────────────────────────────────────────────────────
 # T013 — Watermark Read/Write Functions
 # ─────────────────────────────────────────────────────────────────────────────
@@ -145,3 +166,11 @@ def write_watermark(
         .whenNotMatchedInsertAll()
         .execute()
     )
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
