@@ -7,5 +7,12 @@
   "config": {
     "version": "2.0",
     "logicalId": "ad6c0b84-c422-449e-9291-5342930d5cc7"
+  },
+  "dependencies": {
+    "lakehouse": {
+      "default_lakehouse": "d4427a88-18f4-4f60-b3c2-a7e5b4294848",
+      "default_lakehouse_name": "CopilotUsageLakehouse",
+      "default_lakehouse_workspace_id": "00000000-0000-0000-0000-000000000000"
+    }
   }
 }

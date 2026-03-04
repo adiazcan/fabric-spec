@@ -21,16 +21,44 @@ if [[ -z "$TARGET" ]]; then
 fi
 
 cd "$ROOT_DIR"
-if [[ "$TARGET" =~ ^[0-9a-fA-F-]{36}$ ]]; then
-  if [[ ${#ITEM_TYPES[@]} -gt 0 ]]; then
-    "$VENV_PYTHON" scripts/deploy_fabric.py --workspace-id "$TARGET" --environment "$ENVIRONMENT" --item-types "${ITEM_TYPES[@]}"
+
+run_deploy() {
+  local -a types=("$@")
+  if [[ "$TARGET" =~ ^[0-9a-fA-F-]{36}$ ]]; then
+    if [[ ${#types[@]} -gt 0 ]]; then
+      "$VENV_PYTHON" scripts/deploy_fabric.py --workspace-id "$TARGET" --environment "$ENVIRONMENT" --item-types "${types[@]}"
+    else
+      "$VENV_PYTHON" scripts/deploy_fabric.py --workspace-id "$TARGET" --environment "$ENVIRONMENT"
+    fi
   else
-    "$VENV_PYTHON" scripts/deploy_fabric.py --workspace-id "$TARGET" --environment "$ENVIRONMENT"
+    if [[ ${#types[@]} -gt 0 ]]; then
+      "$VENV_PYTHON" scripts/deploy_fabric.py --workspace-name "$TARGET" --environment "$ENVIRONMENT" --item-types "${types[@]}"
+    else
+      "$VENV_PYTHON" scripts/deploy_fabric.py --workspace-name "$TARGET" --environment "$ENVIRONMENT"
+    fi
   fi
-else
-  if [[ ${#ITEM_TYPES[@]} -gt 0 ]]; then
-    "$VENV_PYTHON" scripts/deploy_fabric.py --workspace-name "$TARGET" --environment "$ENVIRONMENT" --item-types "${ITEM_TYPES[@]}"
-  else
-    "$VENV_PYTHON" scripts/deploy_fabric.py --workspace-name "$TARGET" --environment "$ENVIRONMENT"
-  fi
+}
+
+# First-time workspace bootstrap:
+# 1) Publish Lakehouse first so it exists in target workspace
+# 2) Publish all default item types so notebook metadata can resolve lakehouse GUIDs
+if [[ ${#ITEM_TYPES[@]} -eq 0 ]]; then
+  echo "Bootstrap pass 1/2: publishing Lakehouse first"
+  run_deploy "Lakehouse"
+  echo "Bootstrap pass 2/2: publishing default item types"
+  run_deploy
+  echo "Post-deploy: binding lakehouse to notebooks"
+  "$VENV_PYTHON" scripts/bind_lakehouse.py "$TARGET" CopilotUsageLakehouse
+  exit 0
 fi
+
+run_deploy "${ITEM_TYPES[@]}"
+
+# Bind lakehouse after any deploy that includes notebooks
+for t in "${ITEM_TYPES[@]}"; do
+  if [[ "${t,,}" == "notebook" ]]; then
+    echo "Post-deploy: binding lakehouse to notebooks"
+    "$VENV_PYTHON" scripts/bind_lakehouse.py "$TARGET" CopilotUsageLakehouse
+    break
+  fi
+done
