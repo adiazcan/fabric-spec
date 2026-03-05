@@ -89,9 +89,9 @@ def _get_sp_credential() -> ClientSecretCredential:
     Secret names stored in Key Vault (values never in source or parameter.yml):
       sp-tenant-id, sp-client-id, sp-client-secret
     """
-    tenant_id = notebookutils.credentials.getSecret(KV_URL, "sp-tenant-id")  # noqa: F821
-    client_id = notebookutils.credentials.getSecret(KV_URL, "sp-client-id")  # noqa: F821
-    client_secret = notebookutils.credentials.getSecret(KV_URL, "sp-client-secret")  # noqa: F821
+    tenant_id = notebookutils.credentials.getSecret(KV_URL, "graph-tenant-id")  # noqa: F821
+    client_id = notebookutils.credentials.getSecret(KV_URL, "graph-client-id")  # noqa: F821
+    client_secret = notebookutils.credentials.getSecret(KV_URL, "graph-client-secret")  # noqa: F821
     return ClientSecretCredential(
         tenant_id=tenant_id,
         client_id=client_id,

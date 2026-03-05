@@ -90,9 +90,9 @@ BRONZE_TABLE = "bronze_graph_audit_logs"
 WATERMARK_SOURCE = "graph_audit"
 
 # Polling config for async query (Step 2)
-POLL_INITIAL_DELAY_S = 5.0
-POLL_MAX_DELAY_S = 60.0
-POLL_TIMEOUT_S = 600  # 10 minutes
+POLL_INITIAL_DELAY_S = 15.0
+POLL_MAX_DELAY_S = 120.0
+POLL_TIMEOUT_S = 1800  # 30 minutes — first run (7-day backfill) can take >10 min
 
 _BRONZE_SCHEMA = StructType(
     [
@@ -177,8 +177,8 @@ async def _create_audit_query(
         display_name="CopilotAuditIngestion",
         filter_start_date_time=filter_start,
         filter_end_date_time=filter_end,
-        service_filter="MicrosoftCopilot",
     )
+    query_body.service_filter = "MicrosoftCopilot"
 
     query = await retry_with_backoff(
         client.security.audit_log.queries.post,
@@ -426,6 +426,9 @@ async def _ingest(spark: SparkSession, run_id: str) -> Tuple[int, Optional[str]]
 # CELL ********************
 
 # Main execution
+
+import nest_asyncio
+nest_asyncio.apply()
 
 spark = SparkSession.builder.getOrCreate()
 run_id = generate_run_id()

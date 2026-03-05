@@ -281,6 +281,9 @@ async def _ingest(spark: SparkSession, run_id: str) -> Tuple[int, Optional[str]]
 
 # Main execution
 
+import nest_asyncio
+nest_asyncio.apply()
+
 spark = SparkSession.builder.getOrCreate()
 run_id = generate_run_id()
 

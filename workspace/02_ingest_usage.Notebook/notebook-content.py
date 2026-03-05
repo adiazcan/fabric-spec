@@ -204,6 +204,16 @@ async def _ingest(spark: SparkSession, run_id: str) -> Tuple[int, Optional[str]]
     try:
         all_records = await _fetch_all_usage_records(client, period)
     except Exception as exc:
+        status_code: Optional[int] = getattr(exc, "response_status_code", None)
+        error_message = str(exc)
+        if status_code == 403:
+            error_message = (
+                "Graph API returned 403 on getMicrosoft365CopilotUsageUserDetail. "
+                "Ensure the service principal has the 'Reports.Read.All' APPLICATION "
+                "permission granted with admin consent in Microsoft Entra ID "
+                "(Azure Portal → App registrations → API permissions). "
+                f"Original error: {exc}"
+            )
         write_audit_entry(
             spark,
             run_id=run_id,
@@ -211,8 +221,10 @@ async def _ingest(spark: SparkSession, run_id: str) -> Tuple[int, Optional[str]]
             operation="API_CALL",
             target=f"/beta/reports/getMicrosoft365CopilotUsageUserDetail(period='{period}')",
             status="FAILURE",
-            error_message=str(exc),
+            error_message=error_message,
         )
+        if status_code == 403:
+            raise PermissionError(error_message) from exc
         raise
 
     api_ms = int((datetime.now(timezone.utc) - api_start).total_seconds() * 1000)
@@ -300,6 +312,9 @@ async def _ingest(spark: SparkSession, run_id: str) -> Tuple[int, Optional[str]]
 # CELL ********************
 
 # Main execution
+
+import nest_asyncio
+nest_asyncio.apply()
 
 spark = SparkSession.builder.getOrCreate()
 run_id = generate_run_id()
